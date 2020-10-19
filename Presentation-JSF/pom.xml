@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>JEE8Base</artifactId>
+        <groupId>com.luisfga</groupId>
+        <version>0.5</version>
+    </parent>
+
+    <groupId>com.luisfga</groupId>
+    <artifactId>Presentation-JSF</artifactId>
+    <version>0.1</version>
+    <packaging>war</packaging>
+
+    <name>Presentation-JSF</name>
+
+    <properties>
+        <myfaces.version>2.3.6</myfaces.version>
+        <primefaces.version>8.0</primefaces.version>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <version>${myfaces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-impl</artifactId>
+            <version>${myfaces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${primefaces.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.luisfga</groupId>
+            <artifactId>Domain</artifactId>
+            <version>current</version>
+        </dependency>
+    </dependencies>
+
+</project>

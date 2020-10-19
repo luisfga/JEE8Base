@@ -1,0 +1,40 @@
+<resources>
+    
+<!--    <Resource id="applicationDS" type="DataSource">
+        JdbcDriver          org.postgresql.Driver
+        JdbcUrl             jdbc:postgresql://localhost:5432/shiro_struts_jee8_app
+        UserName            javauser
+        Password            Javapass_123
+        JtaManaged          true
+        DefaultAutoCommit   true
+
+        maxIdle             30 
+        maxTotal            100 
+        maxWaitMillis       10000 
+    </Resource>-->
+    
+<!--    <Resource id="applicationDS" type="DataSource">
+        JdbcDriver          org.hsqldb.jdbcDriver
+        JdbcUrl             jdbc:hsqldb:file:data/applicationDB
+        UserName            sa
+        Password            
+        JtaManaged          true
+        DefaultAutoCommit   true
+    </Resource>-->
+
+    
+<!--    <Resource id="applicationMailSession" type="javax.mail.Session">
+        mail.transport.protocol = smtp
+        mail.smtp.host = smtp.office365.com
+        mail.smtp.auth = true
+        mail.smtp.starttls.enable = true
+        mail.smtp.port = 587
+
+        mail.smtp.ssl.trust = smtp.office365.com
+        mail.debug = true
+
+        mail.smtp.user = filipealves@outlook.com
+        password = estudar_eh_viver
+    </Resource>-->
+    
+</resources>
