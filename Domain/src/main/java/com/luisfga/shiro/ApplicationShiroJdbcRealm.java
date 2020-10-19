@@ -1,5 +1,6 @@
 package com.luisfga.shiro;
 
+import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,6 +72,4 @@ public class ApplicationShiroJdbcRealm extends JdbcRealm {
         return (token instanceof UsernamePasswordToken);
     }
 
-    public class PendingEmailConfirmationException extends AuthenticationException{}
-    
 }

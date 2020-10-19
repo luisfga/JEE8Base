@@ -1,7 +1,7 @@
 package com.luisfga.business;
 
 import com.luisfga.business.entities.AppUser;
-import com.luisfga.shiro.ApplicationShiroJdbcRealm;
+import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.security.auth.login.LoginException;
@@ -71,15 +71,15 @@ public class LoginUseCaseTest extends AbstractShiroEnabledComposedBaseTest{
         setSubject(subjectUnderTest);
 
         //simulate login throwing PendingEmailConfirmationException
-        doThrow(ApplicationShiroJdbcRealm.PendingEmailConfirmationException.class).when(subjectUnderTest).login(any(UsernamePasswordToken.class));
+        doThrow(PendingEmailConfirmationException.class).when(subjectUnderTest).login(any(UsernamePasswordToken.class));
 
         try {
             loginUseCase.login(testSupportBean.getEmail(), testSupportBean.getPassword());
         } catch (EJBException ex) {
-            if(ex.getCause() instanceof ApplicationShiroJdbcRealm.PendingEmailConfirmationException){
+            if(ex.getCause() instanceof PendingEmailConfirmationException){
                 return;
             } else {
-                fail("Should throw EJBException (with cause:AuthenticationException) but was with another one");
+                fail("Should throw EJBException (with cause:PendingEmailConfirmationException)");
             }
         } catch (Exception ex) {
             fail("Should throw EJBException (with cause:PendingEmailConfirmationException)");

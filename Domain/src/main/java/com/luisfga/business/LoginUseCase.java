@@ -1,7 +1,7 @@
 package com.luisfga.business;
 
 import com.luisfga.business.entities.AppUser;
-import com.luisfga.shiro.ApplicationShiroJdbcRealm;
+import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -19,7 +19,7 @@ import org.apache.shiro.subject.Subject;
 @Stateless //TODO atenção para os testes. Ver se pode ser Stateless mesmo ou se tem que ser Statefull
 public class LoginUseCase extends UseCase{
     
-    public void login(String email, String password) throws EJBException, LoginException, AuthenticationException {
+    public void login(String email, String password) throws EJBException, LoginException, PendingEmailConfirmationException, AuthenticationException {
 
         UsernamePasswordToken authToken = new UsernamePasswordToken(email, password);
         authToken.setRememberMe(false);
@@ -29,14 +29,8 @@ public class LoginUseCase extends UseCase{
         try {
             currentUser.login(authToken);
             
-        } catch (ApplicationShiroJdbcRealm.PendingEmailConfirmationException pec) {
-            throw pec;
-            
         } catch ( UnknownAccountException | IncorrectCredentialsException | LockedAccountException | ExcessiveAttemptsException ice ) {
             throw new LoginException();
-            
-        } catch ( AuthenticationException ae ) {
-            throw ae;
         }
 
         AppUser appUser = loadUser(authToken.getUsername());
