@@ -1,8 +1,8 @@
 package com.luisfga.jsf;
 
 import com.luisfga.business.LoginUseCase;
+import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.luisfga.business.helper.MailHelper;
-import com.luisfga.shiro.ApplicationShiroJdbcRealm;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +65,7 @@ public class Login{
 
             return "login";
             
-        } catch (ApplicationShiroJdbcRealm.PendingEmailConfirmationException pecException) {
+        } catch (PendingEmailConfirmationException pecException) {
             
             // Bring the information message using the Faces Context
             String errorMessage = FacesContext.getCurrentInstance().getApplication().

@@ -1,8 +1,8 @@
 package com.luisfga.struts;
 
 import com.luisfga.business.LoginUseCase;
+import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.luisfga.business.helper.MailHelper;
-import com.luisfga.shiro.ApplicationShiroJdbcRealm;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -74,7 +74,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
             addActionError(getText("action.error.authentication.exception"));
             return INPUT;  
             
-        } catch (ApplicationShiroJdbcRealm.PendingEmailConfirmationException pecException) {
+        } catch (PendingEmailConfirmationException pecException) {
             
             addActionError(getText("action.error.pending.email.confirmation"));
             
