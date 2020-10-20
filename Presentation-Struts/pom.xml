@@ -8,10 +8,10 @@
     </parent>
 
     <groupId>com.luisfga</groupId>
-    <artifactId>Presentation-Struts</artifactId>
+    <artifactId>presentation-struts</artifactId>
     <packaging>war</packaging>
 
-    <name>Presentation-Struts</name>
+    <name>presentation-struts</name>
 
     <properties>
         <struts2.version>2.5.25</struts2.version>
@@ -53,9 +53,10 @@
             <version>${struts2.version}</version>
         </dependency>
         
+        <!-- camada de business -->
         <dependency>
             <groupId>com.luisfga</groupId>
-            <artifactId>Domain</artifactId>
+            <artifactId>domain</artifactId>
             <version>current</version>
         </dependency>
     </dependencies>
