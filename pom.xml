@@ -27,16 +27,16 @@
   <modules>
                 
     
-    <module>Domain</module>
+    <module>domain</module>
                 
     
-    <module>Presentation-JSF</module>
+    <module>presentation-jsf</module>
                 
     
-    <module>Presentation-Struts</module>
+    <module>presentation-struts</module>
               
     
-    <module>Presentation-AngularJS</module>
+    <module>presentation-angularJS-with-struts-rest-plugin</module>
       
   </modules>
             
