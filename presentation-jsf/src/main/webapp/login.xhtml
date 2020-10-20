@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">  
+ 
+    <ui:composition template="/templates/default/main.xhtml">
+        <ui:define name="content">
+            
+            <div class="inputPanelOffLogin">
+                <h1 class="h1Center"><h:outputText value="#{msg['header.login']}"/></h1>
+                <h:form>
+                    <h:panelGrid class="panelGrid">
+                        <p:messages globalOnly="true" escape="false"/>
+
+                        <h:outputLabel value="#{msg['email']}" for="email" class="label"/>
+                        <h:inputText id="email" value="#{login.email}" class="inputField" required="true" requiredMessage="#{msg['email']} #{msg['validation.error.required']}"/>
+                        <h:message for="email" errorClass="errorMessage" warnClass="warn" infoClass="info"></h:message>
+
+                        <h:outputLabel value="#{msg['password']}" for="password" class="label"/>
+                        <h:inputSecret id="password" value="#{login.password}" class="inputField" required="true" requiredMessage="#{msg['password']} #{msg['validation.error.required']}"/>
+                        <h:message for="password" errorClass="errorMessage" warnClass="warn" infoClass="info"></h:message>
+
+                        <br/>
+                        <h:commandButton action="#{login.execute()}" value="#{msg['login']}" class="button" style="float: right"/>
+
+                    </h:panelGrid>
+                </h:form>
+
+                <div class="customExtraFooter">
+                    <div class="plainText"><h:outputText value="#{msg['question.dont.have.account']}"/></div>
+                    <br/>
+                    <h:button value="#{msg['new.account']}" outcome="register" class="button"/>
+
+                    <br/><br/><br/><br/>
+
+                    <h:link value="#{msg['question.forgot.password']}" outcome="passwordRecover" class="undecLink tinyText"/>
+                </div>                    
+            </div>
+            
+        </ui:define>
+    </ui:composition>        
+ 
+</html>
