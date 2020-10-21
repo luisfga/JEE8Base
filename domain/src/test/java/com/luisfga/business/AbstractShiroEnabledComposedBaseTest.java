@@ -1,6 +1,5 @@
 package com.luisfga.business;
 
-import com.luisfga.business.helper.MailHelper;
 import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -1,6 +1,5 @@
 package com.luisfga.business;
 
-import com.luisfga.business.helper.MailHelper;
 import com.luisfga.business.entities.AppRole;
 import com.luisfga.business.entities.AppUser;
 import com.luisfga.business.exceptions.EmailAlreadyTakenException;
@@ -22,7 +21,7 @@ public class RegisterUseCase extends UseCase {
     
     @EJB private MailHelper mailHelper;
     
-    public AppUser registerNewAppUser(String email, String password, String userName, LocalDate birthday) 
+    public void registerNewAppUser(String email, String password, String userName, LocalDate birthday) 
             throws EmailAlreadyTakenException {
         
         try {
@@ -55,12 +54,11 @@ public class RegisterUseCase extends UseCase {
         //salva novo usuário
         em.persist(newAppUser);
 
-        return newAppUser;
     }
     
-    public void enviarEmailConfirmacaoNovoUsuario(String contextPath, AppUser newAppUser) throws EmailConfirmationSendingException{
+    public void enviarEmailConfirmacaoNovoUsuario(String contextPath, String email) throws EmailConfirmationSendingException{
         try {
-            mailHelper.enviarEmailConfirmacaoNovoUsuario(contextPath, newAppUser);
+            mailHelper.enviarEmailConfirmacaoNovoUsuario(contextPath, email);
             
         } catch (MessagingException | UnsupportedEncodingException ex) {
             throw new EmailConfirmationSendingException();

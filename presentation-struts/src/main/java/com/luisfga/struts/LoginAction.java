@@ -2,17 +2,16 @@ package com.luisfga.struts;
 
 import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
-import com.luisfga.business.helper.MailHelper;
+import com.luisfga.business.MailHelper;
+import com.luisfga.business.exceptions.EmailConfirmationSendingException;
+import com.luisfga.business.exceptions.LoginException;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.mail.MessagingException;
-import javax.security.auth.login.LoginException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -80,9 +79,9 @@ public class LoginAction extends ActionSupport implements SessionAware {
             
             try {
                 String contextPath = ServletActionContext.getServletContext().getContextPath();
-                mailHelper.enviarEmailConfirmacaoNovoUsuario(contextPath,loginUseCase.loadUser(email));
+                loginUseCase.enviarEmailConfirmacaoNovoUsuario(contextPath, email);
 
-            } catch (MessagingException | UnsupportedEncodingException ex) { //generaliza possíveis exceções em uma só
+            } catch (EmailConfirmationSendingException ex) { //generaliza possíveis exceções em uma só
                 Logger.getLogger(LoginAction.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
                 addActionError(getText("exception.email.confirmation.sending"));
             }

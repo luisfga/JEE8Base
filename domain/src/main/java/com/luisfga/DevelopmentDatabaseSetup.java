@@ -24,8 +24,9 @@ import org.hsqldb.persist.HsqlProperties;
 import org.hsqldb.server.ServerAcl;
 import org.hsqldb.server.WebServer;
 
+/* Usada apenas em desenvolvimento para checar/carregar o que for preciso no banco de dados */
 @WebListener
-public class DatabaseSetup implements ServletContextListener {
+public class DevelopmentDatabaseSetup implements ServletContextListener {
 
     @Resource
     private UserTransaction tx;
@@ -61,12 +62,12 @@ public class DatabaseSetup implements ServletContextListener {
             server.setErrWriter(null); // can use custom writer
             server.start();
         } catch (ServerAcl.AclFormatException | IOException ioex) {
-            Logger.getLogger(DatabaseSetup.class.getName()).log(Level.SEVERE, null, ioex);
+            Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.SEVERE, null, ioex);
         }
     }
     
     private void checkRequiredData() {
-        Logger.getLogger(DatabaseSetup.class.getName()).log(Level.INFO, "Checando dados necessários");
+        Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.INFO, "Checando dados necessários");
 
         try {
 
@@ -77,33 +78,33 @@ public class DatabaseSetup implements ServletContextListener {
             try {
                 Query findBasicRole = em.createNamedQuery("AppRole.findRegisteredUserRole");
                 findBasicRole.getSingleResult(); //apenas faz a query pra ver se vai dar NoResultException
-                Logger.getLogger(DatabaseSetup.class.getName()).log(Level.INFO, "Dados OK!");
+                Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.INFO, "Dados OK!");
 
             } catch (NoResultException nrException) {
-                Logger.getLogger(DatabaseSetup.class.getName()).log(Level.INFO, "Dados não encontrados");
+                Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.INFO, "Dados não encontrados");
                 //se não retornar nada precisamos incluir
                 AppRole registeredUserRole = new AppRole();
                 registeredUserRole.setRoleName("REGISTERED_USER");
 
                 em.persist(registeredUserRole);
-                Logger.getLogger(DatabaseSetup.class.getName()).log(Level.INFO, "Salvou: {0}", registeredUserRole);
+                Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.INFO, "Salvou: {0}", registeredUserRole);
             }
             
             tx.commit();
 
         } catch (IllegalStateException | SecurityException  ex) {
-            Logger.getLogger(DatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
             
         } catch (NotSupportedException ex) {
-            Logger.getLogger(DatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SystemException ex) {
-            Logger.getLogger(DatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RollbackException ex) {
-            Logger.getLogger(DatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HeuristicMixedException ex) {
-            Logger.getLogger(DatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HeuristicRollbackException ex) {
-            Logger.getLogger(DatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopmentDatabaseSetup.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

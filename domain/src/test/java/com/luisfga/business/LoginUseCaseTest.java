@@ -1,10 +1,9 @@
 package com.luisfga.business;
 
-import com.luisfga.business.entities.AppUser;
+import com.luisfga.business.exceptions.LoginException;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.security.auth.login.LoginException;
 import static junit.framework.TestCase.fail;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -78,11 +77,7 @@ public class LoginUseCaseTest extends AbstractShiroEnabledComposedBaseTest{
         } catch (EJBException ex) {
             if(ex.getCause() instanceof PendingEmailConfirmationException){
                 return;
-            } else {
-                fail("Should throw EJBException (with cause:PendingEmailConfirmationException)");
             }
-        } catch (Exception ex) {
-            fail("Should throw EJBException (with cause:PendingEmailConfirmationException)");
         } 
         
         fail("Should throw EJBException (with cause:PendingEmailConfirmationException)");
@@ -167,16 +162,4 @@ public class LoginUseCaseTest extends AbstractShiroEnabledComposedBaseTest{
         
     }
 
-    /**
-     * Test of loadUser method, of class LoginUseCase.
-     */
-    @Test
-    public void testLoadUser() throws Exception {
-        
-        AppUser appUser = loginUseCase.loadUser(testSupportBean.getEmail());
-        
-        assertNotNull(appUser);
-        
-    }
-    
 }

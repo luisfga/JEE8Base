@@ -1,12 +1,10 @@
 package com.luisfga.jsf;
 
 import com.luisfga.business.RegisterUseCase;
-import com.luisfga.business.entities.AppUser;
 import com.luisfga.business.exceptions.EmailAlreadyTakenException;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -108,10 +106,10 @@ public class Register {
     public String execute() {
 
         try {
-            AppUser appUser = registerUseCase.registerNewAppUser(email, password, userName, birthday);
+            registerUseCase.registerNewAppUser(email, password, userName, birthday);
             
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            registerUseCase.enviarEmailConfirmacaoNovoUsuario(ctx.getContextPath(), appUser);
+            registerUseCase.enviarEmailConfirmacaoNovoUsuario(ctx.getContextPath(), email);
             
         } catch (EmailAlreadyTakenException ex) {
 

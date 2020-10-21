@@ -3,8 +3,6 @@ package com.luisfga.business;
 import com.luisfga.business.entities.AppUser;
 import com.luisfga.business.exceptions.CorruptedLinkageException;
 import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import static junit.framework.TestCase.assertEquals;

@@ -5,7 +5,6 @@
  */
 package com.luisfga.business.exceptions;
 
-import com.luisfga.shiro.ApplicationShiroJdbcRealm;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 
@@ -13,8 +12,7 @@ import org.apache.shiro.realm.jdbc.JdbcRealm;
  * Extensão de {@link AuthenticationException} por conta da assinatura do método
  * {@link JdbcRealm#doGetAuthenticationInfo(org.apache.shiro.authc.AuthenticationToken) }
  * 
- * Esta excessão é lançada pela implementação 
- * {@link ApplicationShiroJdbcRealm#doGetAuthenticationInfo(org.apache.shiro.authc.AuthenticationToken) }
+ * Esta excessão é lançada por implementações de Realm
  * @author Luis
  */
 public class PendingEmailConfirmationException extends AuthenticationException{

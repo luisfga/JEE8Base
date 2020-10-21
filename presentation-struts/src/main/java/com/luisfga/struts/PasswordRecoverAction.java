@@ -1,7 +1,6 @@
 package com.luisfga.struts;
 
 import com.luisfga.business.PasswordRecoverUseCase;
-import com.luisfga.business.entities.AppUser;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.WrongInfoException;
 import com.opensymphony.xwork2.ActionSupport;
@@ -70,10 +69,10 @@ public class PasswordRecoverAction extends ActionSupport{
     public String execute() {
         
         try {
-            AppUser appUser = passwordRecoverUseCase.prepareRecovery(email, birthday, token);
+            passwordRecoverUseCase.prepareRecovery(email, birthday, token);
         
             String contextPath = ServletActionContext.getServletContext().getContextPath();
-            passwordRecoverUseCase.enviarEmailResetSenha(contextPath, appUser, token);
+            passwordRecoverUseCase.enviarEmailResetSenha(contextPath, email, token);
         } catch (WrongInfoException wbException) {
             addActionError(getText("action.error.invalid.informations"));
             return INPUT;

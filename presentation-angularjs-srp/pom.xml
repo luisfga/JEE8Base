@@ -10,11 +10,11 @@
     </parent>
     
     <groupId>com.luisfga</groupId>
-    <artifactId>presentation-angularJS-with-struts-rest-plugin</artifactId>
+    <artifactId>presentation-angularjs-srp</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
     
-    <name>presentation-angularJS-with-struts-rest-plugin</name>
+    <name>presentation-angularjs-srp</name>
     
     <properties>
         <struts2.version>2.5.25</struts2.version>

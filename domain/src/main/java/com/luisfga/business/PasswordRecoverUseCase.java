@@ -1,6 +1,5 @@
 package com.luisfga.business;
 
-import com.luisfga.business.helper.MailHelper;
 import com.luisfga.business.entities.AppUser;
 import com.luisfga.business.entities.AppUserOperationWindow;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
@@ -19,7 +18,7 @@ public class PasswordRecoverUseCase extends UseCase{
     
     @EJB private MailHelper mailHelper;
 
-    public AppUser prepareRecovery(String email, LocalDate birthday, String token) 
+    public void prepareRecovery(String email, LocalDate birthday, String token) 
             throws WrongInfoException {
         
         try {
@@ -44,20 +43,18 @@ public class PasswordRecoverUseCase extends UseCase{
             operationWindow.setInitTime(OffsetDateTime.now());
             em.persist(operationWindow);
             
-            return appUser;
-            
         } catch (NoResultException nrException) {
             throw new WrongInfoException();
             
         }
     }
     
-    public void enviarEmailResetSenha(String contextName, AppUser appUser, String windowToken) 
+    public void enviarEmailResetSenha(String contextName, String email, String windowToken) 
             throws EmailConfirmationSendingException{
         
         try {
             
-            mailHelper.enviarEmailResetSenha(contextName, appUser, windowToken);
+            mailHelper.enviarEmailResetSenha(contextName, email, windowToken);
         } catch (MessagingException | UnsupportedEncodingException ex) {
             throw new EmailConfirmationSendingException();
         }

@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "app_user")
 @NamedQueries({
-        @NamedQuery(name = "AppUser.findAll", query = "SELECT au FROM AppUser au"),
+        @NamedQuery(name = "AppUser.findUserNameByEmail", query = "SELECT au.userName FROM AppUser au WHERE au.email=:email"),
         @NamedQuery(name = "AppUser.findByEmail", query = "SELECT au FROM AppUser au WHERE au.email=:email"),
         @NamedQuery(name = "AppUser.checkIfExists", query = "SELECT au.email FROM AppUser au WHERE au.email=:email"),
         @NamedQuery(name = "AppUser.findByEmailAndBirthday", query = "SELECT au.email FROM AppUser au WHERE au.email=:email AND au.birthday=:birthday")

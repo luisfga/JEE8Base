@@ -2,7 +2,6 @@ package com.luisfga.business;
 
 import com.luisfga.business.entities.AppUserOperationWindow;
 import com.luisfga.business.exceptions.WrongInfoException;
-import com.luisfga.business.helper.MailHelper;
 import java.time.LocalDate;
 import javax.ejb.EJB;
 import static junit.framework.TestCase.fail;

@@ -1,7 +1,6 @@
 package com.luisfga.jsf;
 
 import com.luisfga.business.PasswordRecoverUseCase;
-import com.luisfga.business.entities.AppUser;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.WrongInfoException;
 import java.time.LocalDate;
@@ -40,11 +39,11 @@ public class PasswordRecover {
     public String execute() {
         String windowToken = UUID.randomUUID().toString();
         try {
-            AppUser appUser = passwordRecoverUseCase.prepareRecovery(email, birthday, windowToken);
+            passwordRecoverUseCase.prepareRecovery(email, birthday, windowToken);
             
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             
-            passwordRecoverUseCase.enviarEmailResetSenha(ctx.getContextPath(), appUser, windowToken);
+            passwordRecoverUseCase.enviarEmailResetSenha(ctx.getContextPath(), email, windowToken);
             
         } catch (WrongInfoException wbException) {
             String errorMessage = FacesContext.getCurrentInstance().getApplication().

@@ -90,22 +90,19 @@ public class RegisterAction extends ActionSupport {
 
         AppUser newAppUser;
         try {
-            newAppUser = registerUseCase.registerNewAppUser(email, password, userName, birthday);
+            registerUseCase.registerNewAppUser(email, password, userName, birthday);
+
+            //mensagem de sucesso na criação da conta
+            addActionMessage(getText("action.message.account.created"));
+            
+            String contextPath = ServletActionContext.getServletContext().getContextPath();
+            registerUseCase.enviarEmailConfirmacaoNovoUsuario(contextPath, email);
             
         } catch (EmailAlreadyTakenException ex) {
             addActionError(getText("validation.error.email.already.taken", new String[]{email}));
             addActionError(getText("validation.error.account.recovery.link"));
 
             return INPUT;
-        }  
-        
-        //mensagem de sucesso na criação da conta
-        addActionMessage(getText("action.message.account.created"));
-        
-        try {
-            
-            String contextPath = ServletActionContext.getServletContext().getContextPath();
-            registerUseCase.enviarEmailConfirmacaoNovoUsuario(contextPath, newAppUser);
             
         } catch (EmailConfirmationSendingException ex) {
             Logger.getLogger(RegisterAction.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
