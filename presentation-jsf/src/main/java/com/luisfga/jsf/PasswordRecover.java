@@ -5,20 +5,23 @@ import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.WrongInfoException;
 import java.time.LocalDate;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Named
 @RequestScoped
 public class PasswordRecover {
 
-    @EJB PasswordRecoverUseCase passwordRecoverUseCase;
+    
+    private final Logger logger = LogManager.getLogger();
+    
+    @EJB private PasswordRecoverUseCase passwordRecoverUseCase;
     
     private String email;
     public String getEmail() {
@@ -57,7 +60,7 @@ public class PasswordRecover {
             return "index";
             
         } catch (EmailConfirmationSendingException ex) {
-            Logger.getLogger(PasswordRecover.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email para reset de senha para o usuário {"+email+"}", ex);
+            logger.error("Erro ao tentar enviar email para reset de senha para o usuário {"+email+"}", ex);
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
                     getResourceBundle(FacesContext.getCurrentInstance(),"msg").
                     getString("exception.email.confirmation.sending");

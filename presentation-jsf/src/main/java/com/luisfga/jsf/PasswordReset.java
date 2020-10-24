@@ -4,8 +4,6 @@ import com.luisfga.business.PasswordResetUseCase;
 import com.luisfga.business.exceptions.ForbidenOperationException;
 import com.luisfga.business.exceptions.TimeHasExpiredException;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -15,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * OBS: esta classe tem uma utilização incomum do atributo token. É utilizado também junto com o banco de dados
@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestScoped
 public class PasswordReset {
     
-    @EJB PasswordResetUseCase passwordResetUseCase;
+    private final Logger logger = LogManager.getLogger();
+    
+    @EJB private PasswordResetUseCase passwordResetUseCase;
 
     private String password;
     public String getPassword() {
@@ -124,7 +126,7 @@ public class PasswordReset {
             
             //TODO revisar essa forma de tentar pegar o ip do cliente.
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            Logger.getLogger(PasswordReset.class.getName()).log(Level.SEVERE, "IP suspeito {"+getClientIpAddress(request)+"}", foException);
+            logger.error("IP suspeito {"+getClientIpAddress(request)+"}", foException);
 
 
         } catch (TimeHasExpiredException teException) {
@@ -140,7 +142,7 @@ public class PasswordReset {
             
         } catch (Exception ex) {
 
-            Logger.getLogger(PasswordReset.class.getName()).log(Level.SEVERE, "Usuário não encontrado ao tentar resetar senha.", ex);
+            logger.error("Usuário não encontrado ao tentar resetar senha.", ex);
 
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
                     getResourceBundle(FacesContext.getCurrentInstance(),"msg").

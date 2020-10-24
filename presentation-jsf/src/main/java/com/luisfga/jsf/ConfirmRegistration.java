@@ -21,7 +21,7 @@ public class ConfirmRegistration {
     }
     
     
-    @EJB ConfirmRegistrationUseCase confirmRegistrationUseCase;
+    @EJB private ConfirmRegistrationUseCase confirmRegistrationUseCase;
     
     public String execute(){
         

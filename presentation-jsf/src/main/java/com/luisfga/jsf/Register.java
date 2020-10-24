@@ -5,8 +5,6 @@ import com.luisfga.business.exceptions.EmailAlreadyTakenException;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -16,14 +14,18 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Named
 @RequestScoped
 public class Register {
 
+    private final Logger logger = LogManager.getLogger();
+    
     private static final long serialVersionUID = 1L;
     
-    @EJB RegisterUseCase registerUseCase;
+    @EJB private RegisterUseCase registerUseCase;
 
     private String token;
     public String getToken() { return token; }
@@ -133,7 +135,7 @@ public class Register {
             return "";
             
         }  catch (EmailConfirmationSendingException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
+            logger.error("Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
 //            addActionError(getText("exception.email.confirmation.sending"));
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
                     getResourceBundle(FacesContext.getCurrentInstance(),"msg").

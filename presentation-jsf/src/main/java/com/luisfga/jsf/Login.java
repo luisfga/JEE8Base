@@ -4,20 +4,22 @@ import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Named
 @RequestScoped
 public class Login{
 
-    @EJB LoginUseCase loginUseCase;
+    private final Logger logger = LogManager.getLogger();    
+    
+    @EJB private LoginUseCase loginUseCase;
     
     private String token;
     public String getToken() { return token; }
@@ -78,7 +80,7 @@ public class Login{
                 loginUseCase.enviarEmailConfirmacaoNovoUsuario(ctx.getContextPath(),email);
 
             } catch (EmailConfirmationSendingException ex) { //generaliza possíveis exceções em uma só
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
+                logger.error("Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
 //                addActionError(getText("exception.email.confirmation.sending"));
 
                 // Bring the information message using the Faces Context
