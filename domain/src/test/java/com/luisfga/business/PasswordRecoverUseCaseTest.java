@@ -9,8 +9,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
 public class PasswordRecoverUseCaseTest extends AbstractComposedBaseTest{
     
@@ -32,7 +30,7 @@ public class PasswordRecoverUseCaseTest extends AbstractComposedBaseTest{
     }
 
     @Test
-    public void testNonExistingEmailShallThrowWrongInfoException(){
+    public void testPrepareRecovery_NonExistingEmailShallThrowWrongInfoException(){
         
         try {
             passwordRecoverUseCase.prepareRecovery("any@wrong.email", LocalDate.MIN, "some_wrong_token");
@@ -43,7 +41,7 @@ public class PasswordRecoverUseCaseTest extends AbstractComposedBaseTest{
     }
     
     @Test
-    public void testWrongBirthdatShallThrowWrongInfoException(){
+    public void testPrepareRecovery_WrongBirthdatShallThrowWrongInfoException(){
         try {
             passwordRecoverUseCase.prepareRecovery(testSupportBean.getEmail(), LocalDate.parse("2000-01-01"), "random_token");
         } catch (WrongInfoException ex) {
@@ -53,13 +51,9 @@ public class PasswordRecoverUseCaseTest extends AbstractComposedBaseTest{
     }
     
     @Test
-    public void testShallReuseExistingWindowUpdatingIt(){
+    public void testPrepareRecovery_ShallReuseExistingWindowUpdatingIt(){
         
         try {
-            //mock de mail sending
-            MailHelper mailHelper = mock(MailHelper.class);
-            doNothing().when(mailHelper).enviarEmailResetSenha(any(),any(),any());        
-            
             AppUserOperationWindow opWindow = em.find(AppUserOperationWindow.class, testSupportBean.getEmail());
             assertEquals(opWindow.getInitTime(),testSupportBean.getWindowInitTime());
             assertEquals(opWindow.getWindowToken(), testSupportBean.getWindowToken());

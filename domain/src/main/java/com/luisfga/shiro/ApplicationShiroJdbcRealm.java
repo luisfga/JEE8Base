@@ -5,8 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -60,7 +59,7 @@ public class ApplicationShiroJdbcRealm extends JdbcRealm {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(ApplicationShiroJdbcRealm.class.getName()).log(Level.SEVERE, null, ex);
+            LogManager.getLogger().error(ex.getMessage());
             throw new AuthenticationException(ex);
         }
      

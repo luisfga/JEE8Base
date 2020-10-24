@@ -1,11 +1,10 @@
 package com.luisfga.business.exceptions;
 
-import com.luisfga.business.PasswordResetUseCase;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+
 
 public class ForbidenOperationException extends Exception {
     public ForbidenOperationException(String email){
-        Logger.getLogger(PasswordResetUseCase.class.getName()).log(Level.SEVERE, "Tentativa suspeita de resetar senha do usu\u00e1rio '{'{0}'}'", email);
+        LogManager.getLogger().always().log("Tentativa suspeita de resetar senha do usu\u00e1rio '{'{0}'}'", email);
     }
 }

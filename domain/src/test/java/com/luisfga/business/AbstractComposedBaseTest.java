@@ -13,20 +13,20 @@ import org.apache.openejb.testing.Module;
 import org.junit.runner.RunWith;
 
 @RunWith(ApplicationComposer.class)
-public abstract class AbstractComposedBaseTest extends TestCase{
-    
+public abstract class AbstractComposedBaseTest extends TestCase {
+
     @PersistenceContext(unitName = "applicationJpaUnit")
     EntityManager em;
-    
+
     public AbstractComposedBaseTest() {
     }
- 
+
     @Module
-    @Classes(cdi = true, value = { 
-        RegisterUseCase.class, 
-        PasswordResetUseCase.class, 
-        PasswordRecoverUseCase.class, 
-        LoginUseCase.class, 
+    @Classes(cdi = true, value = {
+        RegisterUseCase.class,
+        PasswordResetUseCase.class,
+        PasswordRecoverUseCase.class,
+        LoginUseCase.class,
         ConfirmRegistrationUseCase.class,
         MailHelper.class,
         TestSupportBean.class
@@ -34,7 +34,7 @@ public abstract class AbstractComposedBaseTest extends TestCase{
     public WebApp war() {
         return new WebApp();
     }
-    
+
     @Module
     public PersistenceUnit persistence() {
         PersistenceUnit unit = new PersistenceUnit("applicationJpaUnit");
@@ -44,7 +44,6 @@ public abstract class AbstractComposedBaseTest extends TestCase{
         unit.setProperty("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
         return unit;
     }
-    
 
     @Configuration
     public Properties config() throws Exception {
@@ -52,8 +51,25 @@ public abstract class AbstractComposedBaseTest extends TestCase{
         p.put("applicationDS", "new://Resource?type=DataSource");
         p.put("applicationDS.JdbcDriver", "org.hsqldb.jdbcDriver");
         p.put("applicationDS.JdbcUrl", "jdbc:hsqldb:mem:applicationDB");
-        
+
+        p.put("log4j.rootLogger", "fatal,C");
+        p.put("log4j.category.OpenEJB", "warn");
+        p.put("log4j.category.OpenEJB.options", "warn");
+        p.put("log4j.category.OpenEJB.server", "warn");
+        p.put("log4j.category.OpenEJB.startup", "warn");
+        p.put("log4j.category.OpenEJB.startup.service", "warn");
+        p.put("log4j.category.OpenEJB.startup.config", "warn");
+//        p.put("log4j.category.OpenEJB.hsql", "warn");
+//        p.put("log4j.category.CORBA-Adapter", "warn");
+//        p.put("log4j.category.Transaction", "warn");
+//        p.put("log4j.category.org.apache.activemq", "error");
+//        p.put("log4j.category.org.apache.geronimo", "error");
+//        p.put("log4j.category.openjpa", "warn");
+//        p.put("log4j.appender.C", "org.apache.log4j.ConsoleAppender");
+//        p.put("log4j.appender.C.layout", "org.apache.log4j.SimpleLayout");
+//        p.put("openejb.nobanner", "false");
+
         return p;
     }
-    
+
 }
