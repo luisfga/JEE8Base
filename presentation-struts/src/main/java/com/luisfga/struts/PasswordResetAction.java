@@ -10,10 +10,10 @@ import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.opensymphony.xwork2.validator.annotations.ExpressionValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -25,7 +25,10 @@ import org.apache.struts2.convention.annotation.Result;
  */
 public class PasswordResetAction extends ActionSupport {
     
-    @EJB PasswordResetUseCase passwordResetUseCase;
+    private final Logger logger = LogManager.getLogger();
+    
+    @EJB
+    private PasswordResetUseCase passwordResetUseCase;
 
     private String password;
     public String getPassword() {
@@ -91,7 +94,7 @@ public class PasswordResetAction extends ActionSupport {
             addActionError(getText("action.error.forbiden.operation"));
             HttpServletRequest request = ServletActionContext.getRequest();
             //TODO revisar essa forma de tentar pegar o ip do cliente.
-            Logger.getLogger(PasswordResetAction.class.getName()).log(Level.SEVERE, "IP suspeito {"+getClientIpAddress(request)+"}", foException);
+            logger.error("IP suspeito {"+getClientIpAddress(request)+"}", foException);
             return ERROR;
 
         } catch (TimeHasExpiredException teException) {
@@ -100,7 +103,7 @@ public class PasswordResetAction extends ActionSupport {
             
         } catch (Exception ex) {
             addActionError(getText("exception.unknown"));
-            Logger.getLogger(PasswordResetAction.class.getName()).log(Level.SEVERE, "Usuário não encontrado ao tentar resetar senha.", ex);
+            logger.error("Usuário não encontrado ao tentar resetar senha.", ex);
             return ERROR;
         }
         return INPUT;

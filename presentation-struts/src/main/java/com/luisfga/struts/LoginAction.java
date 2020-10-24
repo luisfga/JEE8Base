@@ -9,9 +9,9 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -20,7 +20,9 @@ import org.apache.struts2.interceptor.SessionAware;
 
 public class LoginAction extends ActionSupport implements SessionAware {
 
-    @EJB LoginUseCase loginUseCase;
+    private final Logger logger = LogManager.getLogger();
+    
+    @EJB private LoginUseCase loginUseCase;
     
     @EJB private MailHelper mailHelper;
 
@@ -82,7 +84,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
                 loginUseCase.enviarEmailConfirmacaoNovoUsuario(contextPath, email);
 
             } catch (EmailConfirmationSendingException ex) { //generaliza possíveis exceções em uma só
-                Logger.getLogger(LoginAction.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
+                logger.error("Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
                 addActionError(getText("exception.email.confirmation.sending"));
             }
             

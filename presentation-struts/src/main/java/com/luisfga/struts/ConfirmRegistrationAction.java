@@ -17,7 +17,7 @@ public class ConfirmRegistrationAction extends ActionSupport{
         this.encodedUserEmail = encodedUserEmail;
     }
 
-    @EJB ConfirmRegistrationUseCase confirmRegistrationUseCase;
+    @EJB private ConfirmRegistrationUseCase confirmRegistrationUseCase;
     
     @Action(value = "confirmRegistration", 
             results = {

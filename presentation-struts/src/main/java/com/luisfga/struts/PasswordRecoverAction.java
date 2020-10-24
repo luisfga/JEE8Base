@@ -10,9 +10,9 @@ import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -25,7 +25,10 @@ import org.apache.struts2.convention.annotation.Result;
 )
 public class PasswordRecoverAction extends ActionSupport{
 
-    @EJB PasswordRecoverUseCase passwordRecoverUseCase;
+    private final Logger logger = LogManager.getLogger();
+    
+    @EJB 
+    private PasswordRecoverUseCase passwordRecoverUseCase;
     
     private String email;
     public String getEmail() {
@@ -78,7 +81,7 @@ public class PasswordRecoverAction extends ActionSupport{
             return INPUT;
             
         } catch (EmailConfirmationSendingException ex) {
-            Logger.getLogger(PasswordRecoverAction.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email para reset de senha para o usuário {"+email+"}", ex);
+            logger.error("Erro ao tentar enviar email para reset de senha para o usuário {"+email+"}", ex);
             addActionError(getText("exception.email.confirmation.sending"));
             return INPUT;            
         }

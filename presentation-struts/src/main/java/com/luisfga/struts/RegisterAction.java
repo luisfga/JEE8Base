@@ -13,9 +13,9 @@ import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -28,9 +28,12 @@ import org.apache.struts2.convention.annotation.Result;
 )
 public class RegisterAction extends ActionSupport {
 
+    private final Logger logger = LogManager.getLogger();
+    
     private static final long serialVersionUID = 1L;
     
-    @EJB RegisterUseCase registerUseCase;
+    @EJB 
+    private RegisterUseCase registerUseCase;
 
     private String token;
     public String getToken() { return token; }
@@ -105,7 +108,7 @@ public class RegisterAction extends ActionSupport {
             return INPUT;
             
         } catch (EmailConfirmationSendingException ex) {
-            Logger.getLogger(RegisterAction.class.getName()).log(Level.SEVERE, "Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
+            logger.error("Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
             addActionError(getText("exception.email.confirmation.sending"));
             return INPUT;            
         }
