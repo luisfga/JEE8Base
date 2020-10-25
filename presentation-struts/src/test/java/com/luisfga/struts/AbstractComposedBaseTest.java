@@ -38,7 +38,7 @@ public abstract class AbstractComposedBaseTest extends StrutsTestCase {
         RegisterUseCase.class, 
         ConfirmRegistrationUseCase.class,
         LoginUseCase.class, 
-        PasswordRecoverAction.class, 
+        PasswordRecoverUseCase.class, 
         PasswordResetUseCase.class})
     public WebApp war() {
         return new WebApp();
