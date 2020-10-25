@@ -10,8 +10,7 @@ import javax.persistence.Query;
 @Stateless
 public class ConfirmRegistrationUseCase extends UseCase{
 
-    public void confirmRegistration(String encodedEmail) 
-            throws CorruptedLinkageException, IllegalArgumentException{
+    public void confirmRegistration(String encodedEmail) throws CorruptedLinkageException {
         
         if (encodedEmail == null || encodedEmail.isEmpty()) {
             throw new CorruptedLinkageException();
@@ -28,11 +27,9 @@ public class ConfirmRegistrationUseCase extends UseCase{
             appUser.setStatus("ok");//seta status para OK, i.e. CONFIRMADO
             em.persist(appUser);
             
-        } catch (NoResultException nrException) {
+        } catch (NoResultException | IllegalArgumentException nrException) {
             throw new CorruptedLinkageException();
             
-        } catch (IllegalArgumentException iae) {
-            throw iae;
         }
     }
     

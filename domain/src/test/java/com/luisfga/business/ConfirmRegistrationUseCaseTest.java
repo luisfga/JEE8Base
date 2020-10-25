@@ -38,18 +38,17 @@ public class ConfirmRegistrationUseCaseTest extends AbstractComposedBaseTest{
     }
     
     @Test
-    public void testUnencodedEmailShallThrowIllegalArgumentException(){
+    public void testUnencodedEmailShallThrowCorruptedLinkageException(){
         
         try {
             confirmRegistrationUseCase.confirmRegistration("some@email.com");
-        } catch (EJBException e){
-            if(e.getCause() instanceof IllegalArgumentException) {
-                return;
-            } //else, head to fail
+        } catch (CorruptedLinkageException e){
+            return;
+            //else, head to fail
         } catch (Exception e){
             //no op, head to fail
         }
-        fail("Unencoded email should have thrown IllegalArgumentException");
+        fail("Unencoded email should have thrown CorruptedLinkageException");
     }
     
     @Test
