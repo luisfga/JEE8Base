@@ -27,8 +27,7 @@ public class PasswordResetAction extends ActionSupport {
     
     private final Logger logger = LogManager.getLogger();
     
-    @EJB
-    private PasswordResetUseCase passwordResetUseCase;
+    @EJB PasswordResetUseCase passwordResetUseCase;
 
     private String password;
     public String getPassword() {

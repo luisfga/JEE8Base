@@ -17,6 +17,19 @@
         <struts2.version>2.5.25</struts2.version>
     </properties>
     
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -58,6 +71,14 @@
             <groupId>com.luisfga</groupId>
             <artifactId>domain</artifactId>
             <version>current</version>
+        </dependency>
+        
+        <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-junit-plugin</artifactId>
+                <version>${struts2.version}</version>
+                <type>jar</type>
+                <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -32,8 +32,7 @@ public class RegisterAction extends ActionSupport {
     
     private static final long serialVersionUID = 1L;
     
-    @EJB 
-    private RegisterUseCase registerUseCase;
+    @EJB RegisterUseCase registerUseCase;
 
     private String token;
     public String getToken() { return token; }
@@ -88,6 +87,11 @@ public class RegisterAction extends ActionSupport {
         return INPUT;
     }
 
+    @Action(value = "register", 
+        results = {
+            @Result(name="error", location="register.jsp"),
+            @Result(name="success", location="register.jsp")
+        })
     @Override
     public String execute() {
 
@@ -105,12 +109,12 @@ public class RegisterAction extends ActionSupport {
             addActionError(getText("validation.error.email.already.taken", new String[]{email}));
             addActionError(getText("validation.error.account.recovery.link"));
 
-            return INPUT;
+            return ERROR;
             
         } catch (EmailConfirmationSendingException ex) {
             logger.error("Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
             addActionError(getText("exception.email.confirmation.sending"));
-            return INPUT;            
+            return ERROR;            
         }
         
         return SUCCESS;

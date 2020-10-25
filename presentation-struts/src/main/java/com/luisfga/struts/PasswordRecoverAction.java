@@ -27,8 +27,7 @@ public class PasswordRecoverAction extends ActionSupport{
 
     private final Logger logger = LogManager.getLogger();
     
-    @EJB 
-    private PasswordRecoverUseCase passwordRecoverUseCase;
+    @EJB PasswordRecoverUseCase passwordRecoverUseCase;
     
     private String email;
     public String getEmail() {
@@ -65,7 +64,7 @@ public class PasswordRecoverAction extends ActionSupport{
     
     @Action(value = "passwordRecover", 
             results = {
-                @Result(name="input", location="passwordRecover.jsp"),
+                @Result(name="error", location="passwordRecover.jsp"),
                 @Result(name="success", location="index.jsp")
             })
     @Override
@@ -78,12 +77,12 @@ public class PasswordRecoverAction extends ActionSupport{
             passwordRecoverUseCase.enviarEmailResetSenha(contextPath, email, token);
         } catch (WrongInfoException wbException) {
             addActionError(getText("action.error.invalid.informations"));
-            return INPUT;
+            return ERROR;
             
         } catch (EmailConfirmationSendingException ex) {
             logger.error("Erro ao tentar enviar email para reset de senha para o usuário {"+email+"}", ex);
             addActionError(getText("exception.email.confirmation.sending"));
-            return INPUT;            
+            return ERROR;            
         }
         
         //enviar email para reset de senha

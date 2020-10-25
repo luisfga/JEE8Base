@@ -17,7 +17,7 @@ public class ConfirmRegistrationAction extends ActionSupport{
         this.encodedUserEmail = encodedUserEmail;
     }
 
-    @EJB private ConfirmRegistrationUseCase confirmRegistrationUseCase;
+    @EJB ConfirmRegistrationUseCase confirmRegistrationUseCase;
     
     @Action(value = "confirmRegistration", 
             results = {
@@ -31,7 +31,7 @@ public class ConfirmRegistrationAction extends ActionSupport{
             confirmRegistrationUseCase.confirmRegistration(encodedUserEmail);
             
         } catch (CorruptedLinkageException clException) {
-            addActionError(getText("action.error.email.is.empty"));
+            addActionError(getText("action.error.linkage.exception"));
             return ERROR;
         }
         

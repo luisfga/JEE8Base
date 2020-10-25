@@ -2,7 +2,6 @@ package com.luisfga.struts;
 
 import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
-import com.luisfga.business.MailHelper;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
 import com.opensymphony.xwork2.ActionSupport;
@@ -12,7 +11,6 @@ import java.util.Map;
 import javax.ejb.EJB;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -22,10 +20,8 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
     private final Logger logger = LogManager.getLogger();
     
-    @EJB private LoginUseCase loginUseCase;
+    @EJB LoginUseCase loginUseCase;
     
-    @EJB private MailHelper mailHelper;
-
     private Map<String, Object> userSession;
     @Override public void setSession(Map<String, Object> session) { userSession = session; }
 
@@ -60,7 +56,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
     
     @Action(value = "login", 
             results = {
-                @Result(name="input", location="login.jsp"),
+                @Result(name="error", location="login.jsp"),
                 @Result(name="success", location="secure/dashboard", type = "redirectAction")
             }
     )
@@ -73,7 +69,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
             
         } catch (LoginException le) { 
             addActionError(getText("action.error.authentication.exception"));
-            return INPUT;  
+            return ERROR;  
             
         } catch (PendingEmailConfirmationException pecException) {
             
@@ -88,13 +84,8 @@ public class LoginAction extends ActionSupport implements SessionAware {
                 addActionError(getText("exception.email.confirmation.sending"));
             }
             
-            return INPUT;            
+            return ERROR;            
             
-
-            
-        } catch (AuthenticationException authException) {
-            addActionError(getText("action.error.authentication.exception"));
-            return INPUT;  
         }
         
         return SUCCESS;
