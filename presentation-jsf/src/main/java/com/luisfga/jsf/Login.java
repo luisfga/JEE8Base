@@ -4,6 +4,7 @@ import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
+import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -15,11 +16,11 @@ import org.apache.logging.log4j.Logger;
 
 @Named
 @RequestScoped
-public class Login{
+public class Login extends JsfBeanSupport{
 
     private final Logger logger = LogManager.getLogger();    
     
-    @EJB private LoginUseCase loginUseCase;
+    @EJB LoginUseCase loginUseCase;
     
     private String token;
     public String getToken() { return token; }
@@ -50,9 +51,7 @@ public class Login{
         } catch (LoginException le) { 
 
             // Bring the information message using the Faces Context
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"msg").
-                    getString("action.error.authentication.exception");
+            String errorMessage = getMsgText("global", "action.error.authentication.exception");
             
             // Add View Faces Message
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
@@ -65,9 +64,7 @@ public class Login{
         } catch (PendingEmailConfirmationException pecException) {
             
             // Bring the information message using the Faces Context
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"msg").
-                    getString("action.error.pending.email.confirmation");
+            String errorMessage = getMsgText("global", "action.error.pending.email.confirmation");
             
             // Add View Faces Message
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
@@ -81,12 +78,9 @@ public class Login{
 
             } catch (EmailConfirmationSendingException ex) { //generaliza possíveis exceções em uma só
                 logger.error("Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
-//                addActionError(getText("exception.email.confirmation.sending"));
 
                 // Bring the information message using the Faces Context
-                String errorMessage2 = FacesContext.getCurrentInstance().getApplication().
-                        getResourceBundle(FacesContext.getCurrentInstance(),"msg").
-                        getString("exception.email.confirmation.sending");
+                String errorMessage2 = getMsgText("global", "exception.email.confirmation.sending");
 
                 // Add View Faces Message
                 FacesMessage message2 = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage2, errorMessage2);
