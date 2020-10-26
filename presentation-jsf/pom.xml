@@ -19,6 +19,19 @@
         <primefaces.version>8.0</primefaces.version>
     </properties>
     
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
@@ -44,6 +57,15 @@
             <artifactId>domain</artifactId>
             <version>current</version>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.apache.myfaces.test/myfaces-test23 -->
+        <dependency>
+            <groupId>org.apache.myfaces.test</groupId>
+            <artifactId>myfaces-test23</artifactId>
+            <version>1.0.8</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
