@@ -1,10 +1,5 @@
-/Domain/target/
-/Presentation-JSF/target/
-/Presentation-Struts/target/
-/Presentation-AngularJS/target/
-/presentation-angularJS-with-struts-rest-plugin/target/
 /domain/target/
-/presentation-jsf/target/
-/presentation-struts/target/
-/presentation-struts/nbproject/
-/presentation-jsf/nbproject/
+/frontend-jsf/target/
+/frontend-jsf/nbproject/
+/frontend-struts/target/
+/frontend-struts/nbproject/
