@@ -1,0 +1,81 @@
+html * {font-family: Arial !important;}
+
+body {color: #0099ff; background-color: white; background-image: url('/assets/light-blue-wave-background.jpg')}
+
+h1.wellcome {
+    margin: 50px 0px 50px 0px;
+}
+.h1Center{text-align: center;}
+
+.languageFlags {float: right;}
+
+.langflag { width: 35px; height: 35px;}
+
+.undecLink {
+    text-decoration: none;
+    color: #0099ff;
+}
+
+.plainText {
+    color: black;
+}
+
+.tinyText {
+    font-size: 11px;
+}
+
+.wwFormTable {width: 100%}
+.wwgrp{margin-bottom: 10px; text-align: right;}
+.wwlbl{text-align: left;}
+.wwctrl{text-align: left;}
+
+.label {font-style:italic;}
+.tdLabelTop {text-align:left; vertical-align:bottom;}
+.inputField {
+    border-style: solid; border-color: #0099ff; border-width: 1px; border-radius: 20px; 
+    padding: 10px 20px; width: 100%; box-sizing: border-box;}
+.formButton {text-align: right; margin-top: 20px;}
+
+.errorLabel {font-style:italic; color:red; }
+
+.checkboxLabel {}
+.required {color:red;}
+
+.tdTransferSelect {text-align:center; vertical-align:middle;}
+.tdCheckboxLabel {text-align:right; vertical-align:top;}
+.tdCheckboxInput {text-align:left; vertical-align:top;}
+.tdErrorMessage {text-align:center; vertical-align:top;}
+
+.checkboxErrorLabel {color:red; }
+.tdCheckboxErrorMessage {text-align:left; vertical-align:top;}
+
+
+.infoMessage {text-align: center; color: green; font-size: 15px; font-weight: bold; padding: 0;}
+.errorMessage {text-align: center; color: red; font-size: 15px; font-weight: bold; padding: 0;}
+
+
+/* MY CONFIGS*/
+.button{
+    background-color: #0099ff; color: white; padding: 5px 10px 5px 10px; vertical-align: middle;
+    text-align: center; text-decoration: none; border-radius: 20px;
+    font-size: 15px;}
+
+.customFormButton {cursor: pointer; border-style: none;}
+
+.customExtraFooter {display: table; margin-top: 50px; text-align: right; float: right;}
+
+#content {}
+
+.inputPanelOffLogin {
+    width: 80%;
+    position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);
+}
+
+/* On screens that are Xpx or greater*/
+@media screen and (min-width: 720px) {
+    
+    .inputPanelOffLogin {
+        width: 20%;
+        position: absolute; top: 12.5%; left: 12.5%; transform: translateX(-12.5%) translateY(-12.5%);}
+
+}
