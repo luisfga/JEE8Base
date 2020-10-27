@@ -1,5 +1,9 @@
 /domain/target/
 /frontend-jsf/target/
 /frontend-jsf/nbproject/
+/frontend-jsf/nb-configuration.xml
 /frontend-struts/target/
 /frontend-struts/nbproject/
+/frontend-struts/nb-configuration.xml
+/frontend-angular/nbproject/
+/frontend-angular/node_modules/
