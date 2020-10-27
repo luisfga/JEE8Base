@@ -3,11 +3,14 @@ package com.luisfga.business;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
+import com.luisfga.business.exceptions.PendingEmailConfirmationShiroAuthenticationException;
 import java.io.UnsupportedEncodingException;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -33,6 +36,9 @@ public class LoginUseCase extends UseCase{
             
         } catch ( UnknownAccountException | IncorrectCredentialsException | LockedAccountException | ExcessiveAttemptsException ice ) {
             throw new LoginException();
+            
+        } catch (PendingEmailConfirmationShiroAuthenticationException ex){
+            throw new PendingEmailConfirmationException();
         }
 
     }

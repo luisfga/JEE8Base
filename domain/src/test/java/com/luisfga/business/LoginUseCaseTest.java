@@ -1,7 +1,7 @@
 package com.luisfga.business;
 
 import com.luisfga.business.exceptions.LoginException;
-import com.luisfga.business.exceptions.PendingEmailConfirmationException;
+import com.luisfga.business.exceptions.PendingEmailConfirmationShiroAuthenticationException;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import static junit.framework.TestCase.fail;
@@ -69,13 +69,13 @@ public class LoginUseCaseTest extends AbstractShiroEnabledComposedBaseTest{
         Subject subjectUnderTest = mock(Subject.class);
         setSubject(subjectUnderTest);
 
-        //simulate login throwing PendingEmailConfirmationException
-        doThrow(PendingEmailConfirmationException.class).when(subjectUnderTest).login(any(UsernamePasswordToken.class));
+        //simulate login throwing PendingEmailConfirmationShiroAuthenticationException
+        doThrow(PendingEmailConfirmationShiroAuthenticationException.class).when(subjectUnderTest).login(any(UsernamePasswordToken.class));
 
         try {
             loginUseCase.login(testSupportBean.getEmail(), testSupportBean.getPassword());
         } catch (EJBException ex) {
-            if(ex.getCause() instanceof PendingEmailConfirmationException){
+            if(ex.getCause() instanceof PendingEmailConfirmationShiroAuthenticationException){
                 return;
             }
         } 
@@ -143,7 +143,7 @@ public class LoginUseCaseTest extends AbstractShiroEnabledComposedBaseTest{
         Subject subjectUnderTest = mock(Subject.class);
         setSubject(subjectUnderTest);
 
-        //simulate login throwing PendingEmailConfirmationException
+        //simulate login throwing PendingEmailConfirmationShiroAuthenticationException
         doThrow(AuthenticationException.class).when(subjectUnderTest).login(any(UsernamePasswordToken.class));
 
         try {

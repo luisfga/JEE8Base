@@ -1,6 +1,7 @@
 package com.luisfga.shiro;
 
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
+import com.luisfga.business.exceptions.PendingEmailConfirmationShiroAuthenticationException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +52,7 @@ public class ApplicationShiroJdbcRealm extends JdbcRealm {
                 if ("locked".equals(status)) {
                     throw new LockedAccountException();
                 } else if ("new".equals(status)) {
-                    throw new PendingEmailConfirmationException();
+                    throw new PendingEmailConfirmationShiroAuthenticationException();
                 }
                 
                 return new SimpleAuthenticationInfo(email, hashedPassword, getName());

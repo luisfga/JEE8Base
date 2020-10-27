@@ -33,7 +33,7 @@ public class MailHelper {
         return (String) findUserNameByEmail.getSingleResult();
     }
     
-    void enviarEmailResetSenha(String contextPath, String email, String windowToken) throws AddressException, MessagingException, UnsupportedEncodingException {
+    public void enviarEmailResetSenha(String contextPath, String email, String windowToken) throws AddressException, MessagingException, UnsupportedEncodingException {
 
         Message message = new MimeMessage(applicationMailSession);
         message.setFrom(new InternetAddress(applicationMailSession.getProperty("mail.smtp.user"), contextPath.replace("/", ""))); // Remetente
@@ -68,7 +68,7 @@ public class MailHelper {
 
     }
     
-    void enviarEmailConfirmacaoNovoUsuario(String contextPath, String email) throws AddressException, MessagingException, UnsupportedEncodingException {
+    public void enviarEmailConfirmacaoNovoUsuario(String contextPath, String email) throws AddressException, MessagingException, UnsupportedEncodingException {
 
         Message message = new MimeMessage(applicationMailSession);
 
