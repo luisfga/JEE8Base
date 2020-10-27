@@ -1,0 +1,1 @@
+export const result: string = 'Mensagem de erro';
