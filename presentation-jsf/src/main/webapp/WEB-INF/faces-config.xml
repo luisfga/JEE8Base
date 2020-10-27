@@ -32,7 +32,7 @@
         </locale-config>
         <resource-bundle>
             <base-name>global</base-name>
-            <var>msg</var>
+            <var>global</var>
          </resource-bundle>
          
     </application>

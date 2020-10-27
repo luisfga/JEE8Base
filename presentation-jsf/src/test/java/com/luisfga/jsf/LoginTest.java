@@ -4,26 +4,18 @@ import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
-import java.lang.reflect.Method;
+import com.luisfga.business.exceptions.PendingEmailConfirmationShiroAuthenticationException;
 import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.naming.Context;
 import javax.servlet.ServletContext;
 import org.apache.myfaces.test.mock.MockExternalContext;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 
 public class LoginTest extends AbstractComposedBaseTest{
 

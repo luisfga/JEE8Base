@@ -98,7 +98,7 @@ public class PasswordReset {
         if (!passwordVal.equals(confirmPassword)) {
 
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"msg").
+                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
                     getString("validation.error.password.confirmation");
             
             
@@ -117,7 +117,7 @@ public class PasswordReset {
 
         } catch (ForbidenOperationException foException){
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"msg").
+                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
                     getString("action.error.forbiden.operation");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
@@ -132,7 +132,7 @@ public class PasswordReset {
         } catch (TimeHasExpiredException teException) {
 
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"msg").
+                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
                     getString("action.error.invalid.user.temp.window.token");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
@@ -145,7 +145,7 @@ public class PasswordReset {
             logger.error("Usuário não encontrado ao tentar resetar senha.", ex);
 
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"msg").
+                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
                     getString("exception.unknown");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
@@ -160,7 +160,7 @@ public class PasswordReset {
         passwordResetUseCase.resetPassword(email, password);
 
         String infoMessage = FacesContext.getCurrentInstance().getApplication().
-                getResourceBundle(FacesContext.getCurrentInstance(),"msg").
+                getResourceBundle(FacesContext.getCurrentInstance(),"global").
                 getString("action.message.password.reset");
 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,infoMessage, infoMessage);

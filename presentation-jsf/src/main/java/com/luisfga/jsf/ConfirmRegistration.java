@@ -32,7 +32,7 @@ public class ConfirmRegistration {
             
         } catch (CorruptedLinkageException clException) {
             String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"msg").
+                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
                     getString("action.error.email.is.empty");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
@@ -44,7 +44,7 @@ public class ConfirmRegistration {
         
 
         String successMessage = FacesContext.getCurrentInstance().getApplication().
-                getResourceBundle(FacesContext.getCurrentInstance(),"msg").
+                getResourceBundle(FacesContext.getCurrentInstance(),"global").
                 getString("action.message.confirmation.completed");
 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,successMessage, successMessage);

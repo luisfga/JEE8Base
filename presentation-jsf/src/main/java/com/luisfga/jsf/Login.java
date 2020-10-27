@@ -1,10 +1,9 @@
 package com.luisfga.jsf;
 
 import com.luisfga.business.LoginUseCase;
-import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
-import java.util.ResourceBundle;
+import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -69,8 +68,7 @@ public class Login extends JsfBeanSupport{
             // Add View Faces Message
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             // The component id is null, so this message is considered as a view message
-            FacesContext.getCurrentInstance().addMessage(null, message);
-            
+            FacesContext.getCurrentInstance().addMessage(null, message);            
 
             try {
                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
