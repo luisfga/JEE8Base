@@ -3,7 +3,7 @@ package com.luisfga.struts;
 import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
-import com.luisfga.business.exceptions.PendingEmailConfirmationException;
+import com.luisfga.business.exceptions.PendingEmailConfirmationShiroAuthenticationException;
 import com.opensymphony.xwork2.ActionProxy;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.List;
@@ -92,7 +92,7 @@ public class LoginActionTest extends AbstractComposedBaseTest{
         action.loginUseCase = useCase;
 
         //simulate handling exception thrown by business logic
-        doThrow(PendingEmailConfirmationException.class).when(useCase).login(any(), any());
+        doThrow(PendingEmailConfirmationShiroAuthenticationException.class).when(useCase).login(any(), any());
         
         String result = actionProxy.execute();
         
@@ -129,7 +129,7 @@ public class LoginActionTest extends AbstractComposedBaseTest{
         action.loginUseCase = useCase;
 
         //simulate handling exception thrown by business logic
-        doThrow(PendingEmailConfirmationException.class).when(useCase).login(any(), any());
+        doThrow(PendingEmailConfirmationShiroAuthenticationException.class).when(useCase).login(any(), any());
         doThrow(EmailConfirmationSendingException.class).when(useCase).enviarEmailConfirmacaoNovoUsuario(any(), any());
         
         String result = actionProxy.execute();

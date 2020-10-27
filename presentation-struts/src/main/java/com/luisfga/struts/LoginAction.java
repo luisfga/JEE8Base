@@ -1,9 +1,9 @@
 package com.luisfga.struts;
 
 import com.luisfga.business.LoginUseCase;
-import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import com.luisfga.business.exceptions.LoginException;
+import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
