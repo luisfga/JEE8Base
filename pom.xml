@@ -12,8 +12,8 @@
   
     <modules>
         <module>domain</module>
-        <module>presentation-jsf</module>
-        <module>presentation-struts</module>
+        <module>frontend-jsf</module>
+        <module>frontend-struts</module>
     </modules>
   
     <properties>

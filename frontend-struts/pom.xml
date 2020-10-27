@@ -8,10 +8,10 @@
     </parent>
 
     <groupId>com.luisfga</groupId>
-    <artifactId>presentation-struts</artifactId>
+    <artifactId>frontend-struts</artifactId>
     <packaging>war</packaging>
 
-    <name>presentation-struts</name>
+    <name>frontend-struts</name>
 
     <properties>
         <struts2.version>2.5.25</struts2.version>
