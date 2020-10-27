@@ -1,0 +1,33 @@
+<div class="languageFlags">
+    <input id="brFlag" name="brFlag" type="image" src="./assets/brazil-flag.png" class="langflag" />
+    <input id="usFlag" name="usFlag" type="image" src="./assets/usa-flag.png" class="langflag" />
+</div>
+<div class="inputPanelOffLogin">
+    <div class="panelGrid">
+        <h1 class="h1Center">{{compTitle}}</h1>
+
+        <app-messages></app-messages>
+
+        <label for="name" class="label">Email</label><br/>
+        <input [(ngModel)]="user.name" placeholder="name" id="name" class="inputField"/>
+        <br/><br/>
+
+        <label for="password" class="label">Password</label><br/>
+        <input [(ngModel)]="user.password" placeholder="password" type="password" class="inputField"/>
+        <br/><br/><br/>
+
+        <button (click)="tryLogin()" class="button" style="float: right">Login</button>
+        <br/><br/><br/><br/><br/>
+        
+        <div class="plainText" style="float: right">Ainda não tem uma conta?</div>
+        <br/><br/>
+        <input id="newAccountBtn" name="newAccountBtn" type="button" value="Nova conta" onclick="window.location.href = ''" class="button" style="float: right"/>
+        <br/><br/><br/><br/><br/>
+        <a href="" class="undecLink tinyText" style="float: right">Esqueceu a sua senha?</a>
+    </div>
+
+    <div class="customExtraFooter">
+        
+    </div>    
+
+</div>
