@@ -6,11 +6,9 @@ import com.luisfga.business.exceptions.PendingEmailConfirmationException;
 import com.luisfga.business.exceptions.PendingEmailConfirmationShiroAuthenticationException;
 import java.io.UnsupportedEncodingException;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -41,6 +39,12 @@ public class LoginUseCase extends UseCase{
             throw new PendingEmailConfirmationException();
         }
 
+    }
+    
+    public void logout() {
+
+        SecurityUtils.getSubject().logout();
+        
     }
     
     public void enviarEmailConfirmacaoNovoUsuario(String contextPath, String email) throws EmailConfirmationSendingException{
