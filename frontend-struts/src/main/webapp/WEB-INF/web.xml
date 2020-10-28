@@ -4,7 +4,7 @@
    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
    version="4.0">
     
-    <display-name>Shiro Struts JEE8 App</display-name>
+    <display-name>JEE8 Demo App + Shiro + Struts</display-name>
     
     <resource-ref>
          <res-ref-name>applicationDS</res-ref-name>
