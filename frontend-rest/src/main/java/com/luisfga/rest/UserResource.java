@@ -21,48 +21,52 @@ public class UserResource {
     
     @GET
     @Path("/authenticate/{userName}/{password}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String authenticate(@PathParam("userName") String userName, @PathParam("password") String password){
         
         try {
             loginUseCase.login(userName, password);
         } catch (LoginException ex) {
             logger.error("LoginException");
-            return "LoginException";
+            return jsonifySimpleResult("LoginException");
             
         } catch (PendingEmailConfirmationException ex) {
             logger.error("PendingEmailConfirmationException");
-            return "PendingEmailConfirmationException";
+            return jsonifySimpleResult("PendingEmailConfirmationException");
         }
         
         //gerar token e colocar no http header
         
-        return "Ok! userName="+userName+" Logged successfully";
+        return jsonifySimpleResult("Ok! userName="+userName+" Logged successfully");
     }
     
     @GET
     @Path("/logout")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String authenticate(){
         
         loginUseCase.logout();
 
-        return "Session destroyed!";
+        return jsonifySimpleResult("Session destroyed!");
     }
     
     @GET
     @Path("/secure/dashboard")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String dashboard(){
         
-        return "Dashboard";
+        return jsonifySimpleResult("Dashboard");
     }
     
     @GET
     @Path("/authRequired")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String authRequired(){
         
-        return "Authentication required.";
+        return jsonifySimpleResult("Authentication required.");
+    }
+    
+    private String jsonifySimpleResult(String message){
+        return "{\"result\": \""+message+"\"}";
     }
 }
