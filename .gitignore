@@ -5,5 +5,8 @@
 /frontend-struts/target/
 /frontend-struts/nbproject/
 /frontend-struts/nb-configuration.xml
+/frontend-rest/target/
+/frontend-rest/nbproject/
+/frontend-rest/nb-configuration.xml
 /frontend-angular/nbproject/
 /frontend-angular/node_modules/
