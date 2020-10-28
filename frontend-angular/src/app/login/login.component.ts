@@ -34,7 +34,7 @@ export class LoginComponent {
         .tryLogin(this.user.name, this.user.password)
         .subscribe(result => {
             
-            this.messageService.add(result.result, "Error");
+            this.messageService.add(result.message, result.code);
             this.submitted = false;
         });
         
@@ -50,7 +50,7 @@ export class LoginComponent {
         .dashboard()
         .subscribe(result => {
             
-            this.messageService.add(result.result, "Error");
+            this.messageService.add(result.message, "Error");
             this.submitted = false;
         });
     }
