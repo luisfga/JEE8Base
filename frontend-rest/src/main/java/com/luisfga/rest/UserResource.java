@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger;
 @Path("/user")
 public class UserResource {
     
+    private final String ERROR = "ERROR";
+    private final String INFO = "INFO";
+    
     private final Logger logger = LogManager.getLogger();    
     
     @Inject LoginUseCase loginUseCase;
@@ -28,16 +31,16 @@ public class UserResource {
             loginUseCase.login(userName, password);
         } catch (LoginException ex) {
             logger.error("LoginException");
-            return jsonifySimpleResult("LoginException");
+            return jsonifySimpleResult("LoginException", ERROR);
             
         } catch (PendingEmailConfirmationException ex) {
             logger.error("PendingEmailConfirmationException");
-            return jsonifySimpleResult("PendingEmailConfirmationException");
+            return jsonifySimpleResult("PendingEmailConfirmationException", ERROR);
         }
         
         //gerar token e colocar no http header
         
-        return jsonifySimpleResult("Ok! userName="+userName+" Logged successfully");
+        return jsonifySimpleResult("Ok! userName="+userName+" Logged successfully", INFO);
     }
     
     @GET
@@ -47,7 +50,7 @@ public class UserResource {
         
         loginUseCase.logout();
 
-        return jsonifySimpleResult("Session destroyed!");
+        return jsonifySimpleResult("Session destroyed!", INFO);
     }
     
     @GET
@@ -55,7 +58,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String dashboard(){
         
-        return jsonifySimpleResult("Dashboard");
+        return jsonifySimpleResult("Dashboard", INFO);
     }
     
     @GET
@@ -63,10 +66,11 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String authRequired(){
         
-        return jsonifySimpleResult("Authentication required.");
+        return jsonifySimpleResult("Authentication required.", ERROR);
     }
     
-    private String jsonifySimpleResult(String message){
-        return "{\"result\": \""+message+"\"}";
+    private String jsonifySimpleResult(String message, String code){
+        logger.debug("JSONifying {\"message\": \""+message+"\", \"code\": \""+code+"\"}");
+        return "{\"message\": \""+message+"\", \"code\": \""+code+"\"}";
     }
 }
