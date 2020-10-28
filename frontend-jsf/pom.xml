@@ -9,7 +9,6 @@
 
     <groupId>com.luisfga</groupId>
     <artifactId>frontend-jsf</artifactId>
-    <version>0.1</version>
     <packaging>war</packaging>
 
     <name>frontend-jsf</name>
