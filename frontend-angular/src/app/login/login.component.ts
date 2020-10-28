@@ -20,21 +20,39 @@ export class LoginComponent {
     compTitle = 'Login';
     
     submitted = false;
+    
+    parsedJSON: any;
 
     constructor(private loginService: LoginService, private messageService: MessageService){}
 
     tryLogin() {
         this.submitted = true;
-                
+
         this.messageService.clear();
 
-        var res:string;
-        this.loginService.tryLogin(this.user.name, this.user.password).subscribe(result => res = result);
+        this.loginService
+        .tryLogin(this.user.name, this.user.password)
+        .subscribe(result => {
+            
+            this.messageService.add(result.result, "Error");
+            this.submitted = false;
+        });
         
+        
+    }
+
+    dashboard(){
+        this.submitted = true;
+
         this.messageService.clear();
-        this.messageService.add(res, "Error");
-        
-        this.submitted = false;
+
+        this.loginService
+        .dashboard()
+        .subscribe(result => {
+            
+            this.messageService.add(result.result, "Error");
+            this.submitted = false;
+        });
     }
 
     // TODO: Remove this when we're done
