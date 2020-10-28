@@ -41,6 +41,11 @@ public class Login extends JsfBeanSupport{
         this.password = password;
     }
     
+    public String logout(){
+        loginUseCase.logout();
+        return "/index?faces-redirect=true";
+    }
+    
     public String execute() {
         
         try {

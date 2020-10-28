@@ -9,6 +9,7 @@
         <title><h:outputText value="global.main.title"/></title>
         <link rel="stylesheet" href="${request.contextPath}/css/main.css"/>
         <link rel="stylesheet" href="${request.contextPath}/css/dashboard.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/custom_struts2_css_xhtml_theme.css"/>
         <script type="text/javascript" src="${request.contextPath}/javascript/main.js"></script>
         
         <script>
@@ -33,7 +34,12 @@
                 <a href="#">Sair</a>
             </div>
         </div>
-        Valid? ${dashboard.valid}
+        <div style="text-align: right;">
+            Valid? ${dashboard.valid}
+            <h:form>
+                <h:commandButton value="Logout" action="#{login.logout()}" class="button"/>
+            </h:form>
+        </div>
         <div class="listas">
             <h3 class="cabecalho">Ofertas</h3>
             <span class="badge-counter">10</span>
