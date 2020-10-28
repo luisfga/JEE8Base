@@ -2,12 +2,12 @@
 
     <div *ngFor='let message of messageService.messages'> 
 
-        <div *ngIf="message.type==='Info'; else checkType">
+        <div *ngIf="message.type==='INFO'; else checkType">
             <div class="infoMessage">{{message.text}}</div>
         </div>
 
         <ng-template #checkType>
-            <div *ngIf="message.type==='Error'; else checkType">
+            <div *ngIf="message.type==='ERROR'; else checkType">
                 <div class="errorMessage">{{message.text}}</div>
             </div>
         </ng-template>
