@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.luisfga</groupId>
-    <artifactId>JEE8Base</artifactId>
-    <version>0.5</version>
+    <artifactId>JEE8Demo</artifactId>
+    <version>current</version>
     <packaging>pom</packaging>
             
-    <name>JEE8Base</name>
+    <name>JEE8Demo</name>
   
     <modules>
         <module>domain</module>
@@ -35,7 +35,7 @@
         
     <build>
     
-        <finalName>JEE8Base</finalName>
+        <finalName>JEE8Demo</finalName>
     
         <plugins>
             <plugin>
