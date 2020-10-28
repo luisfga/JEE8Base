@@ -15,6 +15,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 public class LoginAction extends ActionSupport implements SessionAware {
 
@@ -88,6 +89,13 @@ public class LoginAction extends ActionSupport implements SessionAware {
             
         }
         
+        return SUCCESS;
+    }
+    
+    @SkipValidation
+    @Action(value = "logout", results = {@Result(name="success", location="/index", type = "redirect")})
+    public String logout() {
+        loginUseCase.logout();
         return SUCCESS;
     }
 }

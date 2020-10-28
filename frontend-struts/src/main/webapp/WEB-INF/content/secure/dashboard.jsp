@@ -8,6 +8,7 @@
         <title><s:text name="main.title"/></title>
         <link rel="stylesheet" href="${rootPath}/css/main.css"/>
         <link rel="stylesheet" href="${rootPath}/css/dashboard.css"/>
+        <link rel="stylesheet" href="${rootPath}/css/custom_struts2_css_xhtml_theme.css"/>
         <script type="text/javascript" src="${rootPath}/javascript/main.js" defer></script>
     </head>
 
@@ -22,7 +23,12 @@
                 <a href="#">Sair</a>
             </div>
         </div>
-        ${pageContext.request.userPrincipal.name}
+        <div style="text-align: right;">
+            ${pageContext.request.userPrincipal.name}
+            <s:url var="urlLogout" action="/logout"/>
+            <s:a href="%{urlLogout}" cssClass="button">Logout</s:a>
+        </div>
+        
         <div class="listas">
             <h3 class="cabecalho">Ofertas</h3>
             <span class="badge-counter">10</span>
