@@ -1,4 +1,4 @@
-package com.luisfga.frontend.rest;
+package com.luisfga.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

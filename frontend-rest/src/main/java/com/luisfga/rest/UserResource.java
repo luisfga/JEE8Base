@@ -1,4 +1,4 @@
-package com.luisfga.frontend.rest.resources;
+package com.luisfga.rest;
 
 import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.LoginException;
@@ -41,10 +41,28 @@ public class UserResource {
     }
     
     @GET
+    @Path("/logout")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String authenticate(){
+        
+        loginUseCase.logout();
+
+        return "Session destroyed!";
+    }
+    
+    @GET
     @Path("/secure/dashboard")
     @Produces(MediaType.TEXT_PLAIN)
     public String dashboard(){
         
         return "Dashboard";
+    }
+    
+    @GET
+    @Path("/authRequired")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String authRequired(){
+        
+        return "Authentication required.";
     }
 }
