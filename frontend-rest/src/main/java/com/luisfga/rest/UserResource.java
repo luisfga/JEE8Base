@@ -3,11 +3,17 @@ package com.luisfga.rest;
 import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.LoginException;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
+import java.io.IOException;
+import java.util.logging.Level;
 import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,10 +31,18 @@ public class UserResource {
     @GET
     @Path("/authenticate/{userName}/{password}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String authenticate(@PathParam("userName") String userName, @PathParam("password") String password){
+    public String authenticate(
+            @PathParam("userName") String userName, 
+            @PathParam("password") String password,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response){
         
         try {
             loginUseCase.login(userName, password);
+            
+            logger.debug("Redirecinamento para /JWTProvider");
+            request.getServletContext().getRequestDispatcher("/JWTProvider").forward(request, response);
+            
         } catch (LoginException ex) {
             logger.error("LoginException");
             return jsonifySimpleResult("LoginException", ERROR);
@@ -36,6 +50,14 @@ public class UserResource {
         } catch (PendingEmailConfirmationException ex) {
             logger.error("PendingEmailConfirmationException");
             return jsonifySimpleResult("PendingEmailConfirmationException", ERROR);
+            
+        } catch (ServletException ex) {
+            logger.error("ServletException: " + ex.getMessage());
+            return jsonifySimpleResult("ServletException", ERROR);
+            
+        } catch (IOException ex) {
+            logger.error("IOException: " + ex.getMessage());
+            return jsonifySimpleResult("IOException", ERROR);
         }
         
         //gerar token e colocar no http header

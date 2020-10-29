@@ -13,6 +13,10 @@
 
     <name>frontend-rest</name>
     
+    <properties>
+        <json.web.token.version>0.9.1</json.web.token.version>
+    </properties>
+    
     <build>
         <plugins>
             <plugin>
@@ -33,5 +37,13 @@
             <artifactId>domain</artifactId>
             <version>current</version>
         </dependency>
+        
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${json.web.token.version}</version>
+        </dependency>
+
     </dependencies>
 </project>
