@@ -36,6 +36,12 @@ export class LoginComponent {
             
             this.messageService.add(result.message, result.code);
             this.submitted = false;
+            
+            //navigate to dashboard
+            //this.router.navigate(['/'], { queryParams: { loggedin: 'success' } });
+            
+        }, (errorResponse)=> {
+            this.messageService.add(errorResponse.error.error, "ERROR");
         });
         
         
