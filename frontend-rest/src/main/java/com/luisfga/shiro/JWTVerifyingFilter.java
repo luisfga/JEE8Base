@@ -5,6 +5,7 @@
  */
 package com.luisfga.shiro;
 
+import io.jsonwebtoken.Claims;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,11 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import io.jsonwebtoken.Jwts;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -20,21 +26,33 @@ import io.jsonwebtoken.Jwts;
  */
 public class JWTVerifyingFilter extends AccessControlFilter {
  
+    private final Logger logger = LogManager.getLogger();
+    
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse arg1, Object arg2) throws Exception {
         boolean accessAllowed = false;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String jwt = httpRequest.getHeader("Authorization");
+        logger.debug("Verificando header 'Authorization' : " + jwt);
         if (jwt == null || !jwt.startsWith("Bearer ")) {
+            logger.debug("Check 1 : accessAllowed " + accessAllowed);
             return accessAllowed;
         }
         jwt = jwt.substring(jwt.indexOf(" "));
-        String username = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("secret"))
-                .parseClaimsJws(jwt).getBody().getSubject();
-        String subjectName = (String) SecurityUtils.getSubject().getPrincipal();
-        if (username.equals(subjectName)) {
-            accessAllowed = true;
-        }
+        
+        Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("secret")).parseClaimsJws(jwt).getBody();
+        
+        String username = claims.getSubject();
+        logger.debug("username " + username);
+        Date expiration = claims.getExpiration();
+        logger.debug("expiration " + expiration);
+        
+        LocalDate expirationOnLocalDate = expiration.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        logger.debug("expiration is after now? " + expirationOnLocalDate.isAfter(LocalDate.now()));
+        
+        accessAllowed = !username.isEmpty() && expirationOnLocalDate.isAfter(LocalDate.now());
+        
+        logger.debug("Check 2 : accessAllowed " + accessAllowed);
         return accessAllowed;
     }
  

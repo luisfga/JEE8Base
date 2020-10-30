@@ -33,7 +33,26 @@
         </init-param>
         <init-param>
             <param-name>cors.allowed.methods</param-name>
-            <param-value>GET,POST</param-value>
+            <param-value>GET,POST,HEAD,OPTIONS,PUT</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.allowed.headers</param-name>
+            <param-value>
+                Content-Type,
+                X-Requested-With,
+                Accept,
+                Origin,
+                Access-Control-Request-Method,
+                Access-Control-Request-Headers,
+                Authorization,
+                Host,
+                User-Agent,
+                Accept-Language,
+                Accept-Encoding,
+                Referer,
+                DNT,
+                Connection
+            </param-value>
         </init-param>
         <init-param>
             <param-name>cors.exposed.headers</param-name>

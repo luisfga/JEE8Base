@@ -3,8 +3,14 @@ package com.luisfga.rest;
 import com.luisfga.business.LoginUseCase;
 import com.luisfga.business.exceptions.LoginException;
 import com.luisfga.business.exceptions.PendingEmailConfirmationException;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.IOException;
+import java.security.Key;
+import java.util.Date;
 import java.util.logging.Level;
+import javax.crypto.spec.SecretKeySpec;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +21,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +31,7 @@ public class UserResource {
     private final String ERROR = "ERROR";
     private final String INFO = "INFO";
     
-    private final Logger logger = LogManager.getLogger();    
+    private final Logger logger = LogManager.getLogger();
     
     @Inject LoginUseCase loginUseCase;
     
@@ -40,8 +47,7 @@ public class UserResource {
         try {
             loginUseCase.login(userName, password);
             
-            logger.debug("Redirecinamento para /JWTProvider");
-            request.getServletContext().getRequestDispatcher("/JWTProvider").forward(request, response);
+            return jsonifySimpleResult(provideToken(request, response), INFO);
             
         } catch (LoginException ex) {
             logger.error("LoginException");
@@ -51,10 +57,6 @@ public class UserResource {
             logger.error("PendingEmailConfirmationException");
             return jsonifySimpleResult("PendingEmailConfirmationException", ERROR);
             
-        } catch (ServletException ex) {
-            logger.error("ServletException: " + ex.getMessage());
-            return jsonifySimpleResult("ServletException", ERROR);
-            
         } catch (IOException ex) {
             logger.error("IOException: " + ex.getMessage());
             return jsonifySimpleResult("IOException", ERROR);
@@ -62,7 +64,24 @@ public class UserResource {
         
         //gerar token e colocar no http header
         
-        return jsonifySimpleResult("Ok! userName="+userName+" Logged successfully", INFO);
+//        return jsonifySimpleResult("Ok! userName="+userName+" Logged successfully", INFO);
+    }
+    
+    private String provideToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        SignatureAlgorithm sigAlg = SignatureAlgorithm.HS256;
+
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary("secret");
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, sigAlg.getJcaName());
+//        System.out.println(request.getUserPrincipal().getName());
+        JwtBuilder builder = Jwts.builder()
+                .setSubject(request.getUserPrincipal().getName())
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+                .signWith(sigAlg, signingKey);
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        String tokenResult = builder.compact();
+        logger.debug("Retornando JWT: " + tokenResult);
+        return tokenResult;
     }
     
     @GET
@@ -92,7 +111,7 @@ public class UserResource {
     }
     
     private String jsonifySimpleResult(String message, String code){
-        logger.debug("JSONifying {\"message\": \""+message+"\", \"code\": \""+code+"\"}");
+//        logger.debug("JSONifying {\"message\": \""+message+"\", \"code\": \""+code+"\"}");
         return "{\"message\": \""+message+"\", \"code\": \""+code+"\"}";
     }
 }
