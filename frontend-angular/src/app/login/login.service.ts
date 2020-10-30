@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { User } from './user';
-import { Observable, of } from 'rxjs';
+
+import { Observable } from 'rxjs';
 
 import { MessageService } from '../messages/messages.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
 
 const jwt = new JwtHelperService();
 
+/* Utilizado para guardar as informações do JWT decodificado.
+   Deve conter todas os dados do token enviado pelo servidor */
 class DecodedToken {
   exp: number;
   sub: string;
@@ -22,25 +24,31 @@ export class LoginService {
 
     private loginUrl = 'https://localhost:8443/JEE8Demo/rest/user/authenticate';
     private dashboardUrl = 'https://localhost:8443/JEE8Demo/rest/user/secure/dashboard';
-    private decodedToken;
+    private decodedToken: DecodedToken;
 
     constructor(private http: HttpClient, private messageService: MessageService) { }
   
     public tryLogin(username: string, password: string){
-        this.login(username, password).subscribe((result) => {
-            this.saveToken(result);
-        });
-    }
-  
-    private login(username: string, password: string):Observable<any>{
-        return this.http.get<any>(this.loginUrl+'/'+username+'/'+password);
+        this.tokenCheck();
+        
+        this.http
+            .get<any>(this.loginUrl+'/'+username+'/'+password)
+            .subscribe((result) => {
+                console.log("result.code = " + result.code);
+                if(result.code == "JWT"){
+                    this.saveToken(result);
+                } else {
+                    this.messageService.add(result.message, result.code);
+                }
+            });
+
     }
     
     private saveToken(result: any): any {
         this.decodedToken = jwt.decodeToken(result.message);
-        console.log('Decoded token = ' + JSON.stringify(this.decodedToken));
+        console.log('Token decodificado = ' + JSON.stringify(this.decodedToken));
         localStorage.setItem('auth_tkn', result.message);
-        console.log("stored token = " + result.message);
+        console.log("Token armazenado = " + result.message);
         localStorage.setItem('auth_meta', JSON.stringify(this.decodedToken));
         this.messageService.add("Login for " + this.decodedToken.sub, result.code);
         return result;
@@ -53,9 +61,29 @@ export class LoginService {
         this.decodedToken = new DecodedToken();
     }
     
-    public isLoggedIn() {
-        const exp = this.decodedToken.exp;
-        return !exp && moment().isBefore(exp);
+    public tokenCheck() : void {
+        //verificar se existe um token no storage
+        const authTkn = localStorage.getItem("auth_tkn");
+        
+        //se exitir
+        if (authTkn){
+            this.decodedToken = jwt.decodeToken(authTkn);
+            
+            console.log("Moment = " + moment());
+            console.log("Expiração = " + this.decodedToken.exp*1000);
+            //verificar se está na validade
+            //se não estiver, deletar do storage (logout)
+            if(moment().isAfter(this.decodedToken.exp*1000)){
+                console.log("Token expirado");
+                
+                /* se estiver expirado, evita tratamento no servidor. 
+                   Deletando qualquer token antigo, o servidor vai tratar 
+                   como um login inicial normal */
+                this.logout();
+            } else {
+                console.log("Token válido");
+            }
+        }
     }
     
     private dashboard():Observable<any>{
