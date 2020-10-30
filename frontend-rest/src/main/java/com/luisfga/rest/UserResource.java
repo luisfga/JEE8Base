@@ -29,7 +29,9 @@ import org.apache.logging.log4j.Logger;
 public class UserResource {
     
     private final String ERROR = "ERROR";
+    private final String SUCCESS = "SUCCESS";
     private final String INFO = "INFO";
+    private final String JWT = "JWT";
     
     private final Logger logger = LogManager.getLogger();
     
@@ -47,7 +49,7 @@ public class UserResource {
         try {
             loginUseCase.login(userName, password);
             
-            return jsonifySimpleResult(provideToken(request, response), INFO);
+            return jsonifySimpleResult(provideToken(request, response), JWT);
             
         } catch (LoginException ex) {
             logger.error("LoginException");
@@ -91,7 +93,7 @@ public class UserResource {
         
         loginUseCase.logout();
 
-        return jsonifySimpleResult("Session destroyed!", INFO);
+        return jsonifySimpleResult("Session destroyed!", SUCCESS);
     }
     
     @GET
@@ -99,7 +101,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String dashboard(){
         
-        return jsonifySimpleResult("Dashboard", INFO);
+        return jsonifySimpleResult("Dashboard", SUCCESS);
     }
     
     @GET
