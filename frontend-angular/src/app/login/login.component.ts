@@ -13,52 +13,24 @@ export class LoginComponent {
 
     user: User = {
         id: 1,
-        name: 'Windstorm',
+        name: 'luisfga@gmail.com',
         password: '123'
     };
     
     compTitle = 'Login';
     
-    submitted = false;
-    
-    parsedJSON: any;
-
     constructor(private loginService: LoginService, private messageService: MessageService){}
 
     tryLogin() {
-        this.submitted = true;
-
         this.messageService.clear();
 
-        this.loginService
-        .tryLogin(this.user.name, this.user.password)
-        .subscribe(result => {
-            
-            this.messageService.add(result.message, result.code);
-            this.submitted = false;
-            
-            //navigate to dashboard
-            //this.router.navigate(['/'], { queryParams: { loggedin: 'success' } });
-            
-        }, (errorResponse)=> {
-            this.messageService.add(errorResponse.error.error, "ERROR");
-        });
-        
-        
+        this.loginService.tryLogin(this.user.name, this.user.password);
     }
 
     dashboard(){
-        this.submitted = true;
-
         this.messageService.clear();
 
-        this.loginService
-        .dashboard()
-        .subscribe(result => {
-            
-            this.messageService.add(result.message, "Error");
-            this.submitted = false;
-        });
+        this.loginService.tryDashboard();
     }
 
     // TODO: Remove this when we're done
