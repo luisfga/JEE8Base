@@ -2,15 +2,22 @@
 
     <div *ngFor='let message of messageService.messages'> 
 
-        <div *ngIf="message.type==='INFO'; else checkType">
-            <div class="infoMessage">{{message.text}}</div>
+        <!-- se for um erro mostra "vermelho" -->
+        <div *ngIf="message.type==='ERROR'; else checkType">
+            <div class="errorMessage">{{message.text}}</div>
         </div>
 
+        <!-- para todos os outros casos, estilo normal -->
         <ng-template #checkType>
-            <div *ngIf="message.type==='ERROR'; else checkType">
-                <div class="errorMessage">{{message.text}}</div>
-            </div>
+            <div class="infoMessage">{{message.text}}</div>
         </ng-template>
+        
+        <!-- se precisar pode usar vários ifs -->
+<!--        <ng-template #checkType>
+            <div *ngIf="message.type==='ERROR'; else checkType">
+                <div class="infoMessage">{{message.text}}</div>
+            </div>
+        </ng-template>-->
 
     </div>
 
