@@ -11,6 +11,8 @@ import { MessageService } from '../messages/messages.service';
 
 export class LoginComponent {
 
+    forwardTarget: string = "dashboard";
+
     user: User = {
         id: 1,
         name: 'luisfga@gmail.com',
@@ -24,15 +26,7 @@ export class LoginComponent {
     tryLogin() {
         this.messageService.clear();
 
-        this.loginService.tryLogin(this.user.name, this.user.password);
+        this.loginService.login(this.user.name, this.user.password, this.forwardTarget);
     }
 
-    dashboard(){
-        this.messageService.clear();
-
-        this.loginService.tryDashboard();
-    }
-
-    // TODO: Remove this when we're done
-    get diagnostic() { return JSON.stringify(this.user); }
 }

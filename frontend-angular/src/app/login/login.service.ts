@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -26,21 +27,26 @@ export class LoginService {
     private dashboardUrl = 'https://localhost:8443/JEE8Demo/rest/user/secure/dashboard';
     private decodedToken: DecodedToken;
 
-    constructor(private http: HttpClient, private messageService: MessageService) { }
+    constructor(private http: HttpClient, private messageService: MessageService, private router: Router) { }
   
-    public tryLogin(username: string, password: string){
-        this.tokenCheck();
+    public login(username: string, password: string, forwardTarget: string){
         
-        this.http
-            .get<any>(this.loginUrl+'/'+username+'/'+password)
-            .subscribe((result) => {
-                console.log("result.code = " + result.code);
-                if(result.code == "JWT"){
-                    this.saveToken(result);
-                } else {
-                    this.messageService.add(result.message, result.code);
-                }
-            });
+        if (!this.isLoggedIn()){
+ 
+            this.http
+                .get<any>(this.loginUrl+'/'+username+'/'+password)
+                .subscribe((result) => {
+                    console.log("result.code = " + result.code);
+                    if(result.code == "JWT"){
+                        this.saveToken(result);
+                        this.router.navigate([forwardTarget]);
+                    } else {
+                        this.messageService.add(result.message, result.code);
+                    }
+                });
+        } else {
+            this.router.navigate([forwardTarget]);
+        }
 
     }
     
@@ -61,7 +67,7 @@ export class LoginService {
         this.decodedToken = new DecodedToken();
     }
     
-    public tokenCheck() : void {
+    public isLoggedIn() : boolean {
         //verificar se existe um token no storage
         const authTkn = localStorage.getItem("auth_tkn");
         
@@ -80,9 +86,15 @@ export class LoginService {
                    Deletando qualquer token antigo, o servidor vai tratar 
                    como um login inicial normal */
                 this.logout();
+                return false;
             } else {
                 console.log("Token válido");
+                return true;
             }
+            
+        } else {
+            console.log("Token inexistente");
+            return false;
         }
     }
     
