@@ -19,10 +19,12 @@
     <h:body style="background-image: url('#{request.contextPath}/images/light-blue-wave-background.jpg');">
 
         <div class="languageFlags">
-            <h:form>
-            <h:commandButton action="#{localeBean.setLanguage('pt','BR')}" image="images/brazil-flag.png" class="langflag"/>
-            <h:commandButton action="#{localeBean.setLanguage('en')}" image="images/usa-flag.png" class="langflag"/>
-            </h:form>
+            <f:view transient="true">
+                <h:form>
+                    <h:commandButton action="#{localeBean.setLanguage('pt','BR')}" image="images/brazil-flag.png" class="langflag"/>
+                    <h:commandButton action="#{localeBean.setLanguage('en')}" image="images/usa-flag.png" class="langflag"/>
+                </h:form>
+            </f:view>
         </div>
         
         <ui:insert name="content" />
