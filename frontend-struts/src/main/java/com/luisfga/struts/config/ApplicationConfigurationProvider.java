@@ -28,6 +28,7 @@ public class ApplicationConfigurationProvider implements ConfigurationProvider{
     public void register(ContainerBuilder cb, LocatableProperties lp) throws ConfigurationException {
         
         lp.setProperty("struts.custom.i18n.resources", "global");
+        lp.setProperty("struts.localizedTextProvider", "global-only");
         lp.setProperty("struts.action.extension", ",");
         cb.factory(UnknownHandler.class, "handler", ApplicationUnknownHandler.class);
         
