@@ -6,8 +6,9 @@
         </Console>
     </Appenders>
     <Loggers>
-        <!--<Logger name="com.opensymphony.xwork2" level="debug"/>-->
-        <!--<Logger name="org.apache.struts2" level="debug"/>-->
+<!--        <Logger name="javax.faces" level="trace"/>
+        <Logger name="org.apache.myfaces" level="trace"/>-->
+        <Logger name="com.luisfga" level="info"/>
         <Root level="warn">
             <AppenderRef ref="STDOUT"/>
         </Root>
