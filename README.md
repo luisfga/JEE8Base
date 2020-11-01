@@ -17,7 +17,7 @@ O módulo domain precisa que dois recursos sejam disponibilizados no servidor:
 - applicationMailSession, sessão de email utilizada nos casos de uso ConfirmRegistration e PasswordRecovery.
 
 ### Frontend
-O módulo (####frontend-jsf) contém páginas xhtml e seus Beans e testes unitários.
+O módulo frontend-jsf contém páginas xhtml e seus Beans e testes unitários.
 O módulo frontend-struts contém páginas jsp e actions e testes unitários.
 Ambos têm resource bundle para i18n e configuração do Shiro (shiro.ini).
 
