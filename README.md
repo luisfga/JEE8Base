@@ -1,9 +1,9 @@
 # JEE8Base
 
-Este projeto está dividido entre o backend (domain) e frontend(JSF ou Struts). Há ainda a opção do Angular para o frontend, neste caso é preciso utilizar o módulo rest, que disponibiliza a api necessária para frontends client-side. Utilizando o **TomEE 8.0.4**, com a configuração default, o único ajuste necessário para que tudo funcione é a sessão de email (javax.mail.Session). Basta baixar o servidor e fazer o deploy de um dos módulos **frontend-x**.
+Este projeto está dividido entre o backend (domain) e frontend(JSF ou Struts). Há ainda a opção do Angular para o frontend, neste caso é preciso utilizar o módulo rest, que disponibiliza a api necessária para frontends client-side. Utilizando o <a href="https://tomee.apache.org/download-ng.html">**TomEE 8.0.4**</a>, com a configuração default, o único ajuste necessário para que tudo funcione é a sessão de email (javax.mail.Session). Basta baixar o servidor e fazer o deploy de um dos módulos **frontend**.
 
 ### Domain
-O módulo domain contém:
+O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/domain">domain</a> contém:
 - Entidades e configurações da JPA;
 - Casos de uso (Register, ConfirmRegistration, Login, Password Recovery e Reset);
 - Exceções;
@@ -17,12 +17,12 @@ O módulo domain precisa que dois recursos sejam disponibilizados no servidor:
 - applicationMailSession, sessão de email utilizada nos casos de uso ConfirmRegistration e PasswordRecovery.
 
 ### Frontend
-O módulo frontend-jsf contém páginas xhtml e seus Beans e testes unitários.
-O módulo frontend-struts contém páginas jsp e actions e testes unitários.
+O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-jsf">frontend-jsf</a> contém páginas xhtml e seus Beans e testes unitários.
+O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-struts">frontend-struts</a> contém páginas jsp e actions e testes unitários.
 Ambos têm resource bundle para i18n e configuração do Shiro (shiro.ini).
 
 ### Angular + Rest
-O módulo frontend-rest contém a api necessária para frontends client-side. O módulo frontend-angular contém um projeto angular.
+O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-rest">frontend-rest</a> contém a api necessária para frontends client-side. O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-angular">frontend-angular</a> contém um projeto angular.
 
 ### Os frontends estão dispostos de maneira que são mutuamente excludentes
 Apenas um deles pode estar no servidor, pois todos importam o .jar do módulo domain, que possui ejbs que não podem se repetir.
