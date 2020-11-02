@@ -10,9 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -40,22 +42,23 @@ public class ApplicationShiroJdbcRealm extends JdbcRealm {
             ps.setString(1, uToken.getUsername());
             ResultSet rs = ps.executeQuery();
             
-            String email;
-            String hashedPassword;
-            String status;
-            
             if(rs.next()) {
-                email = rs.getString(1);
-                hashedPassword = rs.getString(2);
-                status = rs.getString(3);
+                String hashedPassword = rs.getString(2);
+                DefaultPasswordService defaultPasswordService = new DefaultPasswordService();
+
+                String password = new String(uToken.getPassword());
+                if(!defaultPasswordService.passwordsMatch(password, hashedPassword)){
+                    throw new IncorrectCredentialsException();
+                }
                 
+                String status = rs.getString(3);
                 if ("locked".equals(status)) {
                     throw new LockedAccountException();
                 } else if ("new".equals(status)) {
                     throw new PendingEmailConfirmationShiroAuthenticationException();
                 }
                 
-                return new SimpleAuthenticationInfo(email, hashedPassword, getName());
+                return new SimpleAuthenticationInfo(rs.getString(1), hashedPassword, getName());
                 
             }
             
