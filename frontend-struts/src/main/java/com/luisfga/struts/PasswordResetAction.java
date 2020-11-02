@@ -2,6 +2,7 @@ package com.luisfga.struts;
 
 import com.luisfga.business.PasswordResetUseCase;
 import com.luisfga.business.exceptions.ForbidenOperationException;
+import com.luisfga.business.exceptions.InvalidDataException;
 import com.luisfga.business.exceptions.TimeHasExpiredException;
 import static com.opensymphony.xwork2.Action.INPUT;
 import static com.opensymphony.xwork2.Action.SUCCESS;
@@ -89,6 +90,10 @@ public class PasswordResetAction extends ActionSupport {
         try {
             email = passwordResetUseCase.validateOperationWindow(encodedUserEmail, token);
 
+        } catch (InvalidDataException ide) {
+            addActionError(getText("action.error.invalid.informations"));
+            return ERROR;
+                    
         } catch (ForbidenOperationException foException){
             addActionError(getText("action.error.forbiden.operation"));
             HttpServletRequest request = ServletActionContext.getRequest();
