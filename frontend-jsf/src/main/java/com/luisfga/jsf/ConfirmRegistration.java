@@ -10,7 +10,11 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
-public class ConfirmRegistration {
+public class ConfirmRegistration extends JsfBeanSupport{
+    
+    @EJB private ConfirmRegistrationUseCase confirmRegistrationUseCase;
+    
+    private static final long serialVersionUID = 1L;
     
     private String encodedUserEmail;
     public String getEncodedUserEmail() {
@@ -20,9 +24,9 @@ public class ConfirmRegistration {
         this.encodedUserEmail = encodedUserEmail;
     }
     
-    
-    @EJB private ConfirmRegistrationUseCase confirmRegistrationUseCase;
-    
+    //TODO as mensagens não são apresentadas, provavelmente pelo modo de ativação desta view action.
+    //É preciso estudar melhor o ciclo de vida do JSF para ver como tratar essas mensagens.
+    //O código é executado sem error, porém as mensagens não aparecem para o usuário.
     public String execute(){
         
         System.out.println("Encoded User Email = " + encodedUserEmail);
@@ -31,9 +35,7 @@ public class ConfirmRegistration {
             confirmRegistrationUseCase.confirmRegistration(encodedUserEmail);
             
         } catch (CorruptedLinkageException clException) {
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("action.error.email.is.empty");
+            String errorMessage = getMsgText("global","action.error.email.is.empty");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
@@ -41,11 +43,8 @@ public class ConfirmRegistration {
             
             return "login";
         }
-        
 
-        String successMessage = FacesContext.getCurrentInstance().getApplication().
-                getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                getString("action.message.confirmation.completed");
+        String successMessage = getMsgText("global","action.message.confirmation.completed");
 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,successMessage, successMessage);
 
