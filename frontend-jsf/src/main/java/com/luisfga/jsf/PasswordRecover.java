@@ -16,9 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 @Named
 @RequestScoped
-public class PasswordRecover {
+public class PasswordRecover extends JsfBeanSupport{
 
-    
     private final Logger logger = LogManager.getLogger();
     
     @EJB private PasswordRecoverUseCase passwordRecoverUseCase;
@@ -49,9 +48,7 @@ public class PasswordRecover {
             passwordRecoverUseCase.enviarEmailResetSenha(ctx.getContextPath(), email, windowToken);
             
         } catch (WrongInfoException wbException) {
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("action.error.invalid.informations");
+            String errorMessage = getMsgText("global","action.error.invalid.informations");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
@@ -61,9 +58,7 @@ public class PasswordRecover {
             
         } catch (EmailConfirmationSendingException ex) {
             logger.error("Erro ao tentar enviar email para reset de senha para o usuário {"+email+"}", ex);
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("exception.email.confirmation.sending");
+            String errorMessage = getMsgText("global","exception.email.confirmation.sending");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
@@ -73,9 +68,7 @@ public class PasswordRecover {
         }
         
         //enviar email para reset de senha
-        String successMessage = FacesContext.getCurrentInstance().getApplication().
-                getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                getString("action.message.reset.password.email.sent");
+        String successMessage = getMsgText("global","action.message.reset.password.email.sent");
 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,successMessage, successMessage);
 
