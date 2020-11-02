@@ -95,10 +95,23 @@ public class UserResource {
     }
     
     @GET
+    @Path("/confirmRegistration")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String confirmRegistration(){
+        return jsonifySimpleResult("Register confirmation", SUCCESS);
+    }
+    
+    @GET
+    @Path("/passwordReset")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String passwordReset(){
+        return jsonifySimpleResult("Password reset", SUCCESS);
+    }
+    
+    @GET
     @Path("/secure/dashboard")
     @Produces(MediaType.APPLICATION_JSON)
     public String dashboard(){
-        
         return jsonifySimpleResult("Dashboard", SUCCESS);
     }
     
