@@ -28,7 +28,7 @@ public class PasswordResetUseCase extends UseCase {
      * @throws com.luisfga.business.exceptions.InvalidDataException - quando houver erros nos dados
      */
     public String validateOperationWindow(String encodedUserEmail, String token) 
-            throws ForbidenOperationException, TimeHasExpiredException, Exception {
+            throws InvalidDataException, ForbidenOperationException, TimeHasExpiredException, Exception {
         
         String decodedEmail = null;
         
