@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 @Named
 @RequestScoped
-public class Register {
+public class Register extends JsfBeanSupport{
 
     private final Logger logger = LogManager.getLogger();
     
@@ -115,18 +115,14 @@ public class Register {
             
         } catch (EmailAlreadyTakenException ex) {
 
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("validation.error.email.already.taken").replace("{0}", email);
+            String errorMessage = getMsgText("global","validation.error.email.already.taken").replace("{0}", email);
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
             FacesContext.getCurrentInstance().addMessage(null, message);
             
             //mensagem com um link que não será "escapado" no html
-            String infoMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("validation.error.account.recovery.link");
+            String infoMessage = getMsgText("global","validation.error.account.recovery.link");
             
             FacesMessage faceLinkMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,infoMessage, infoMessage);
             
@@ -136,10 +132,8 @@ public class Register {
             
         }  catch (EmailConfirmationSendingException ex) {
             logger.error("Erro ao tentar enviar email de confirmação para o usuário {"+email+"}", ex);
-//            addActionError(getText("exception.email.confirmation.sending"));
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("exception.email.confirmation.sending");
+
+            String errorMessage = getMsgText("global","exception.email.confirmation.sending");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
@@ -148,10 +142,7 @@ public class Register {
             return "";
         }
         
-//        addActionMessage(getText("action.message.account.created"));
-        String successMessage = FacesContext.getCurrentInstance().getApplication().
-                getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                getString("action.message.account.created");
+        String successMessage = getMsgText("global","action.message.account.created");
 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,successMessage, successMessage);
 
