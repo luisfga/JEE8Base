@@ -23,8 +23,10 @@ class DecodedToken {
 
 export class LoginService {
 
-    private loginUrl = 'https://localhost:8443/JEE8Demo/rest/user/authenticate';
-    private dashboardUrl = 'https://localhost:8443/JEE8Demo/rest/user/secure/dashboard';
+    //private loginUrl = 'https://localhost:8443/JEE8Demo/rest/user/authenticate';
+    private loginUrl = 'http://localhost:8080/JEE8Demo/rest/user/authenticate';
+    //private dashboardUrl = 'https://localhost:8443/JEE8Demo/rest/user/secure/dashboard';
+    private dashboardUrl = 'http://localhost:8080/JEE8Demo/rest/user/secure/dashboard';
     private decodedToken: DecodedToken;
 
     constructor(private http: HttpClient, private messageService: MessageService, private router: Router) { }
