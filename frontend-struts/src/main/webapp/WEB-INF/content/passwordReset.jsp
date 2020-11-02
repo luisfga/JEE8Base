@@ -16,7 +16,7 @@
         </div>
         <div class="inputPanelOffLogin">
             <h1 class="h1Center"><s:text name="header.password.reset"/></h1>
-            <h4 ><s:text name="header.orientation"/></h4>
+            <h4 ><s:text name="header.orientations"/></h4>
             <p class="plainText"><s:text name="orientation.text.password.reset"/></p>
             <br/>
             <s:actionmessage escape="false"/>
