@@ -2,6 +2,7 @@ package com.luisfga.jsf;
 
 import com.luisfga.business.PasswordResetUseCase;
 import com.luisfga.business.exceptions.ForbidenOperationException;
+import com.luisfga.business.exceptions.InvalidDataException;
 import com.luisfga.business.exceptions.TimeHasExpiredException;
 import java.util.StringTokenizer;
 import javax.ejb.EJB;
@@ -23,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  */
 @Named
 @RequestScoped
-public class PasswordReset {
+public class PasswordReset extends JsfBeanSupport{
     
     private final Logger logger = LogManager.getLogger();
     
@@ -115,10 +116,15 @@ public class PasswordReset {
         try {
             email = passwordResetUseCase.validateOperationWindow(encodedUserEmail, windowToken);
 
+        } catch (InvalidDataException ide) {
+            String errorMessage = getMsgText("global","action.error.invalid.informations");
+            
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
+            
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            
         } catch (ForbidenOperationException foException){
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("action.error.forbiden.operation");
+            String errorMessage = getMsgText("global","action.error.forbiden.operation");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
@@ -128,12 +134,9 @@ public class PasswordReset {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             logger.error("IP suspeito {"+getClientIpAddress(request)+"}", foException);
 
-
         } catch (TimeHasExpiredException teException) {
 
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("action.error.invalid.user.temp.window.token");
+            String errorMessage = getMsgText("global","action.error.invalid.user.temp.window.token");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
@@ -144,9 +147,7 @@ public class PasswordReset {
 
             logger.error("Usuário não encontrado ao tentar resetar senha.", ex);
 
-            String errorMessage = FacesContext.getCurrentInstance().getApplication().
-                    getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                    getString("exception.unknown");
+            String errorMessage = getMsgText("global","exception.unknown");
             
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);
             
@@ -159,9 +160,7 @@ public class PasswordReset {
         
         passwordResetUseCase.resetPassword(email, password);
 
-        String infoMessage = FacesContext.getCurrentInstance().getApplication().
-                getResourceBundle(FacesContext.getCurrentInstance(),"global").
-                getString("action.message.password.reset");
+        String infoMessage = getMsgText("global","action.message.password.reset");
 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,infoMessage, infoMessage);
 
