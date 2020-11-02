@@ -38,13 +38,15 @@ Foi desenvolvido com **TomEE 8.0.4** em um **JDK 1.8** (1.8.0_252). Também foi 
 #### Casos de uso
 
 ##### Registrar
-O usuário cadastra email, senha, nome e data de nascimento. A senha tem um campo para confirmação. O sistema grava os dados com o password codificado (hashing) e status NEW. O sistema envia email para que o usuário confirme. O email enviado no link está codificado Base64.
+O usuário cadastra email, senha, nome e data de nascimento. A senha tem um campo para confirmação. O sistema grava os dados com o password codificado (hashing) e status NEW. O sistema utiliza o passwordService do Apache Shiro para codificar e verificar senhas. O sistema envia email para que o usuário confirme. O email enviado no link está codificado em Base64.
     
 ##### Confirmar registro
 O usuário clica no link enviado por email e o sistema atualizado o status para OK.
     
 ##### Login
-O usuário utiliza email e senha para logar.
+O usuário utiliza email e senha para logar. O sistema usa uma implementação própria do JdbcRealm do Apache Shiro para buscar os dados de autenticação no banco de dados. O passwordService verifica se o password confere com o que está salvo (hashed) no banco. 
+
+OBS: o sistema foi feito pra transmissão via HTTPS, i.e. com TLS, por isso não codifica senhas no cliente antes de transmiti-las, o que é desnecessário no caso. Se por ventura se queira usar HTTP ao invés de HTTPS basta codificar a informações necessárias (basicamente senhas) no client-side. Nos frontends Struts ou JSF é preciso usar javascript. No angular, tranquilo, é tudo javascript mesmo. Mas optou-se por não fazê-lo pois a idéia é utilizar HTTPS.
     
 ##### Recuperação de password
 O sistema pede data de nascimento e email antes de enviar um email com link para o funcionalidade "reset de senha". O sistema "abre uma janela" de 7 minutos para que a operação seja executada.
