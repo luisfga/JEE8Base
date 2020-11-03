@@ -2,6 +2,7 @@ package com.luisfga;
 
 import com.luisfga.business.entities.AppRole;
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -77,21 +78,21 @@ public class DevelopmentDatabaseSetup implements ServletContextListener {
             
             EntityManager em = emf.createEntityManager();
 
-            try {
-                Query findBasicRole = em.createNamedQuery("AppRole.findRegisteredUserRole");
-                findBasicRole.getSingleResult(); //apenas faz a query pra ver se vai dar NoResultException
-                logger.info("Dados OK!");
+            Query findBasicRole = em.createNamedQuery("AppRole.findRolesForNewUser");
+            List<AppRole> roles = findBasicRole.getResultList(); //apenas faz a query pra ver se vai dar NoResultException
 
-            } catch (NoResultException nrException) {
+            if(!roles.isEmpty()){
+                logger.info("Dados OK!");
+            } else {
                 logger.info("Dados não encontrados");
                 //se não retornar nada precisamos incluir
                 AppRole registeredUserRole = new AppRole();
-                registeredUserRole.setRoleName("REGISTERED_USER");
+                registeredUserRole.setRoleName("Normal User");
 
                 em.persist(registeredUserRole);
                 logger.info("Salvou: {0}", registeredUserRole);
             }
-            
+
             tx.commit();
 
         } catch (IllegalStateException | SecurityException | NotSupportedException 

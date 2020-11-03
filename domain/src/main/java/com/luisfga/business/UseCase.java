@@ -3,9 +3,9 @@ package com.luisfga.business;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-abstract class UseCase {
+public abstract class UseCase {
     
     @PersistenceContext(unitName = "applicationJpaUnit")
-    EntityManager em;
+    public EntityManager em;
     
 }

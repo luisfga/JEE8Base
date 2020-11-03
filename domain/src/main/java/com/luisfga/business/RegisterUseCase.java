@@ -7,7 +7,9 @@ import com.luisfga.business.exceptions.EmailConfirmationSendingException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -65,12 +67,11 @@ public class RegisterUseCase extends UseCase {
         }
     }
     
-    private Set<AppRole> getRolesForNewUser(){
+    private List<AppRole> getRolesForNewUser(){
         try {
-            Query findRegisteredUserRole = em.createNamedQuery("AppRole.findRegisteredUserRole");
+            Query findRolesForNewUser = em.createNamedQuery("AppRole.findRolesForNewUser");
             //Assumimos que um novo usuário não tem nada e sua lista de Roles está vazia.
-            Set<AppRole> roles = new HashSet<>();
-            roles.add((AppRole) findRegisteredUserRole.getSingleResult());
+            List<AppRole> roles = findRolesForNewUser.getResultList();
             return roles;
             
         } catch (NoResultException nrException) {

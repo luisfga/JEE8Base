@@ -3,9 +3,11 @@ package com.luisfga.business.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -25,7 +27,9 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name = "AppUser.findUserNameByEmail", query = "SELECT au.userName FROM AppUser au WHERE au.email=:email"),
         @NamedQuery(name = "AppUser.findByEmail", query = "SELECT au FROM AppUser au WHERE au.email=:email"),
         @NamedQuery(name = "AppUser.checkIfExists", query = "SELECT au.email FROM AppUser au WHERE au.email=:email"),
-        @NamedQuery(name = "AppUser.findByEmailAndBirthday", query = "SELECT au.email FROM AppUser au WHERE au.email=:email AND au.birthday=:birthday")
+        @NamedQuery(name = "AppUser.findByEmailAndBirthday", query = "SELECT au.email FROM AppUser au WHERE au.email=:email AND au.birthday=:birthday"),
+        @NamedQuery(name = "AppUser.findAll", query = "SELECT au from AppUser au")
+        
 })
 public class AppUser implements Serializable {
     
@@ -59,13 +63,13 @@ public class AppUser implements Serializable {
     @OneToOne(mappedBy = "appUser", orphanRemoval = true)
     private AppUserOperationWindow operationWindow;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role", 
             joinColumns = @JoinColumn(name = "email"), 
             inverseJoinColumns = @JoinColumn(name = "role_name")
     )
-    Set<AppRole> roles;
+    private List<AppRole> roles;
 
     public AppUser() {
     }
@@ -142,11 +146,11 @@ public class AppUser implements Serializable {
         this.operationWindow = operationWindow;
     }
 
-    public Set<AppRole> getRoles() {
+    public List<AppRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<AppRole> roles) {
+    public void setRoles(List<AppRole> roles) {
         this.roles = roles;
     }
     

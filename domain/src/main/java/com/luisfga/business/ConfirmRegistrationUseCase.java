@@ -25,7 +25,7 @@ public class ConfirmRegistrationUseCase extends UseCase{
             AppUser appUser = (AppUser) findByEmail.getSingleResult();
             
             appUser.setStatus("ok");//seta status para OK, i.e. CONFIRMADO
-            em.persist(appUser);
+//            em.persist(appUser);
             
         } catch (NoResultException | IllegalArgumentException nrException) {
             throw new CorruptedLinkageException();
