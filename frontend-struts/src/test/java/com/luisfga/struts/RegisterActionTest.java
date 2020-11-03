@@ -5,24 +5,16 @@
  */
 package com.luisfga.struts;
 
-import com.luisfga.business.PasswordRecoverUseCase;
 import com.luisfga.business.RegisterUseCase;
 import com.luisfga.business.exceptions.EmailAlreadyTakenException;
 import com.luisfga.business.exceptions.EmailConfirmationSendingException;
-import com.luisfga.business.exceptions.WrongInfoException;
 import com.opensymphony.xwork2.ActionProxy;
 import com.opensymphony.xwork2.ActionSupport;
-import java.time.LocalDate;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
