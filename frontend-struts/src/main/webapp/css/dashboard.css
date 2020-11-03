@@ -1,101 +1,81 @@
+html {
+    height: 100%;
+}
 body {
     margin: 0;
-}
-/* Style the navbar */
-.sidenav {
     height: 100%;
-    width: 0;
-    position: absolute;
-    overflow: visible;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #0099ff;
-    overflow-x: hidden;
-    transition: 0.5s;
 }
 
-.sidenav .item {
-    top: 60px;
+.button{
+    background-color: #0099ff; color: white; padding: 5px 10px 5px 10px;
+    text-decoration: none; border-radius: 20px; font-size: 15px; margin: 20px 5px 0 0;
 }
 
-/* Navbar links */
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: white;
-    display: block;
-    transition: 0.3s;
-    
-}
-.sidenav a:hover {
-    background-color: #818181;
-}
-
-.navBarOpts {
-    padding-top: 60px;
-}
-
-.navButton {
-    top: auto;
-    position: absolute;
-    padding: 5px 10px 5px 10px;
-    font-size:30px;
-    cursor:pointer;
-    background-color: white;
-    color: #0099ff;
-    border-style: solid;
-    border-width: 2px;
-    border-radius: 10px;
-}
-#openNavButton{
-    position: fixed;
-    overflow: hidden;
-    margin: 5px;
-}
-#closeNavButton {
-    padding: 0px 10px 0px 10px;  
-    position: relative;
-    top: 5px;
-    right: 5px;
-    
-    float: right;
-}
-
-.listas {
+.table{
     width: 100%;
-    position: absolute;
-    margin-top: 50px;
+    height: 100%;
 }
-
-.listas .cabecalho{
-    margin: 0px 40px 0px 0px;
+.top-row{
     border-bottom-style: solid;
-    width: fit-content;
-    float: right;
+    border-bottom-width: 0.5px;
+    height: 6%;
+    text-align: right;
+}
+.sec-row-side-menu{
+    width: 15%;
+    vertical-align: top;
+}
+.menu-item:hover{
+    background-color: lightgray;
+}
+.menu-item{
+    margin-left: 10px;
+    text-decoration: none;
+    font-weight: bold;    
 }
 
-.badge-counter{
-    position: absolute;
-    background-color: yellow;
+.sec-row-content{
+    vertical-align: top;
+}
+.content-table{
+    width: 100%;
+    height: 100%;
+    border-spacing: 15px 15px;
+}
+.content-tb-row1-col1{
+    border-radius: 20px;
+    vertical-align: top;
+    width: 10%;
+    background-color: lightgray;
+}
+.content-tb-row1-col2{
+    border-radius: 20px;
+    vertical-align: top;
+    width: 90%;
+    background-color: lightgray;
+}
+.content-tb-bottom{
+    border-radius: 20px;
+    vertical-align: top;
+}
+.tb{
+    width: 100%;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+.tb tr{}
+.tb td{border: 0.5px solid}
+.tb-caption{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: gray;
+    overflow: hidden;
     color: black;
-    border-radius: 25px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    padding: 1px;
-    font-size: 10px;
-    right: 30px;
-    top: -5px;
 }
-
-.painelOfertas {
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    margin: 40px 20px 0px 20px;
-    height: 100px;
+.tb-users-head{
+    background-color: lightgray;
+}
+.tb-users-col-filters{
 }
 /* On screens that are 600px or greater*/
 @media screen and (min-width: 600px) {

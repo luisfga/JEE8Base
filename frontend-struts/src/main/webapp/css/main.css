@@ -2,6 +2,8 @@ html * {font-family: Arial !important;}
 
 body {color: #0099ff;}
 
+body a {color: #0099ff;}
+
 h1.wellcome {
     margin: 50px 0px 50px 0px;
 }
