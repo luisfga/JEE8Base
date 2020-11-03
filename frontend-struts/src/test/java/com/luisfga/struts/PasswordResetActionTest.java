@@ -1,12 +1,8 @@
 package com.luisfga.struts;
 
-import com.luisfga.business.PasswordRecoverUseCase;
 import com.luisfga.business.PasswordResetUseCase;
 import com.luisfga.business.exceptions.ForbidenOperationException;
 import com.luisfga.business.exceptions.TimeHasExpiredException;
-import com.luisfga.business.exceptions.WrongInfoException;
-import static com.opensymphony.xwork2.Action.ERROR;
-import static com.opensymphony.xwork2.Action.INPUT;
 import com.opensymphony.xwork2.ActionProxy;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.List;
