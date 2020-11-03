@@ -8,7 +8,7 @@
     <Loggers>
         <Logger name="com.opensymphony.xwork2" level="warn"/>
         <Logger name="org.apache.struts2" level="warn"/>
-        <Logger name="com.luisfga.struts" level="warn"/>
+        <Logger name="com.luisfga" level="info"/>
         <Root level="warn">
             <AppenderRef ref="STDOUT"/>
         </Root>
