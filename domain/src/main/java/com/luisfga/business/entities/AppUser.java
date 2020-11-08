@@ -65,7 +65,7 @@ public class AppUser implements Serializable {
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role", 
+            name = "user_roles", 
             joinColumns = @JoinColumn(name = "email"), 
             inverseJoinColumns = @JoinColumn(name = "role_name")
     )

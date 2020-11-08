@@ -27,7 +27,13 @@ public class ApplicationShiroJdbcRealm extends JdbcRealm {
     
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        permissionsLookupEnabled = true;
+        
+        userRolesQuery = "select role_name from user_roles where email = ?";
+        
+        permissionsQuery = "select permission_name from roles_permissions where role_name = ?";
+        
+        return super.doGetAuthorizationInfo(principals);
     }
 
     @Override
