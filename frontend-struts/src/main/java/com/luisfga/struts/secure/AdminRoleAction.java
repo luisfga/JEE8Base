@@ -22,7 +22,7 @@ import org.apache.struts2.convention.annotation.Result;
  * @author Luis
  */
 @ParentPackage("json-default")
-public class AdminAddRoleAction extends ActionSupport{
+public class AdminRoleAction extends ActionSupport{
     
     private final Logger logger = LogManager.getLogger();
     

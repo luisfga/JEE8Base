@@ -119,7 +119,7 @@ body {
     width: 20px; height: 20px;
 }
 
-.placeholder-msg{color: black; margin-left: 15px;}
+.placeholder-msg{color: black; margin-left: 15px; font-size: 12px;}
 .success-msg{color: green; float: right; margin-left: 15px;}
 .info-msg{color: black; float: right; margin-left: 15px;}
 .fail-msg{color: red; float: right; margin-left: 15px;}

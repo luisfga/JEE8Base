@@ -129,7 +129,7 @@
                                               multiple="false" 
                                               size="1" 
                                               listTitle="Select"
-                                              onchange="selectRole()"
+                                              onchange="roleSelected()"
                                               value="selectedRole" theme="simple"/>
                                     <div id="rolePermissionMessage" class="info-msg"></div>
                                 </div>
@@ -159,36 +159,41 @@
     /*XXXXXXXXXXXXXXXXXXX
       Grupos & Permissões
     XXXXXXXXXXXXXXXXXXXXX*/        
-    function selectRole(){
-        var rolePermissionsContainer = document.getElementById('rolePermissionsContainer');
-        console.log("selectRole()");
-    }
     function onRolePermissionDrop(event) {
         event.preventDefault();//cancel forward trickery
+
+        //get tagElementId from drag event
+        let tagElementId = event.dataTransfer.getData('text');
+        
         var roles = document.getElementById('roles');
         
+        //check if its a 'role-' tag
+        if (tagElementId.startsWith("role-") === true){
+            var roleName = tagElementId.replace("role-","");
+            //set selected role
+            for (var i = 0; i < roles.options.length; i++) {
+                if (roles.options[i].text === roleName) {
+                    roles.selectedIndex = i;
+                    var message = '<s:text name="info.role.selected"/>';
+                    showMessage('rolePermissionMessage', message.replace("{0}",roleName), "success-msg", false);
+                    roleSelected();
+                    return;
+                }
+            }
+        }
+
+        //if the droped tag is not a 'role-', check if a 'perm-'
+        if (tagElementId.startsWith("perm-") === false){
+            return;
+        }
+        
+        //so its a 'perm-'. Check for selectedRole
         if (roles.selectedIndex === 0) {
-            showMessage('rolePermissionMessage','<s:text name="info.first.select.role"/>');
+            showMessage('rolePermissionMessage','<s:text name="info.first.select.role"/>', "fail-msg", true);
             return;
         }
         
-        var selectedRole = roles.options[roles.selectedIndex].text;
-        
-        console.log("Selected Role index= " + roles.selectedIndex);
-        console.log("Selected Role = " + selectedRole);
-        console.log("onRolePermissionDrop(event)");
-        event.preventDefault();
-        let permissionTagId = event.dataTransfer.getData('text');
-
-        //only let permissions be handled
-        console.log("permissionTagId = " + permissionTagId);
-        console.log("permissionTagId.startsWith(perm-) = " + permissionTagId.startsWith("perm-"));
-        console.log("permissionTagId.startsWith(perm-) !== true = " + permissionTagId.startsWith("perm-") !== true);
-        if (permissionTagId.startsWith("perm-") === false){
-            return;
-        }
-
-        let permissionTagElem = document.getElementById(permissionTagId);
+        let permissionTagElem = document.getElementById(tagElementId);
 
         console.log("Permissão sendo associada: " + permissionTagElem.innerHTML);
 
@@ -199,14 +204,14 @@
         for (var i = 0; i < childNodes.length; i++) {
             //pegar apenas os nodes que são 'tags' html
              if (childNodes[i].nodeType === Node.ELEMENT_NODE) {
-                  //se o id da permissão for igual ao id de qualquer permissão já na lista
-                  //precisa retirar o prefixo 'role-'
-                  var childNodeOriginalId = childNodes[i].id;
-                  childNodeOriginalId = childNodeOriginalId.replace("role-","");
-                  if (childNodeOriginalId === permissionTagElem.id){
-                      alreadyContains = true;
-                      break;
-                  }
+                //se o id da permissão for igual ao id de qualquer permissão já na lista
+                //precisa retirar o prefixo 'role-'
+                var childNodeOriginalId = childNodes[i].id;
+                childNodeOriginalId = childNodeOriginalId.replace("role-","");
+                if (childNodeOriginalId === permissionTagElem.id){
+                    alreadyContains = true;
+                    break;
+                }
              }
         }
         console.log("Já tem? " + alreadyContains);
@@ -238,15 +243,63 @@
         event.preventDefault();
     }
     
+    function roleSelected(){
+        
+        //check if the selected one was the 'empty' option
+        let roles = document.getElementById('roles');
+        if (roles.selectedIndex === 0) {
+            resetMessageContainer('rolePermissionMessage');
+            let rolePermissionsContainer = document.getElementById("rolePermissionsContainer");
+            rolePermissionsContainer.innerHTML='<span id="role-perm-placeholder" class="placeholder-msg"><s:text name="info.drop.permission.here"/></span>';
+            return;
+        }
+        let selectedRole = roles.options[roles.selectedIndex].text;
+        
+        //load permissions of the selectedRole
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if (this.readyState === 4 && this.status === 200) {
+                let jsonResponse = JSON.parse(this.responseText);
+                console.log(jsonResponse);
+                let selectedRolePermissions = jsonResponse.selectedRolePermissions;
+                let rolePermissionsContainer = document.getElementById('rolePermissionsContainer');
+                rolePermissionsContainer.innerHTML = '';
+                for(let i=0; i < selectedRolePermissions.length; i++){
+                    let permissionName = selectedRolePermissions[i].permissionName;
+                    rolePermissionsContainer.innerHTML += '<span class="item-tag" id="role-perm-'+permissionName+'" draggable="true" ondragstart="onDragStart(event);">'+permissionName+'</span> ';
+                }
+                if (selectedRolePermissions.length === 0){
+                    rolePermissionsContainer.innerHTML='<span id="role-perm-placeholder" class="placeholder-msg"><s:text name="info.role.without.permissions"/></span>';
+                }
+            }
+        };
+        let json = {"selectedRole": selectedRole};
+        xhttp.open('POST', '<s:url action="adminGetRolePermissions"/>', true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(JSON.stringify(json));
+        
+        //set message
+        let message = '<s:text name="info.role.selected"/>';
+        showMessage('rolePermissionMessage', message.replace("{0}", selectedRole), "success-msg", false);
+        console.log("roleSelected()");
+    }
     
+    function resetMessageContainer(targetId){
+        var messageContainer = document.getElementById(targetId);
+        messageContainer.innerHTML = '';
+        messageContainer.className = 'info-msg';
+    }
 
-    function showMessage(targetId, message){
+    function showMessage(targetId, message, styleClassName, withTimeOut){
         var messageContainer = document.getElementById(targetId);
         messageContainer.innerHTML = message;
-        setTimeout(function(){
-            messageContainer.innerHTML = '';
-            messageContainer.className = "info-msg"; //style normal
-        },5000);
+        messageContainer.className = styleClassName;
+        if (withTimeOut) {
+            setTimeout(function(){
+                messageContainer.innerHTML = '';
+                messageContainer.className = 'info-msg';
+            },5000);
+        }
     }
     
     function removeRolePermissionsPlaceHolder(){
@@ -291,6 +344,7 @@
         let r = confirm("Delete '"+roleTagElem.innerHTML+"'");
         if(r === true){
             console.log("delete");
+            deleteRole(roleTagElem);
         } else {
             console.log("cancel");
         }
@@ -312,8 +366,10 @@
                 roleMessage.innerHTML = jsonResponse.message;
                 if(jsonResponse.success === true){
                     roleMessage.className = "success-msg";
-                    rolesContainer.innerHTML += '<span class="item-tag" id="role-'+role+'" draggable="true" ondragstart="onDragStart(event);">'+role+'</span>';
-
+                    rolesContainer.innerHTML += '<span class="item-tag" id="role-'+role+'" draggable="true" ondragstart="onDragStart(event);">'+role+'</span> ';
+                    //add to roles dropdown
+                    var roles = document.getElementById('roles');
+                    roles.options[roles.options.length] = new Option(role, role);
                 } else {
                     roleMessage.className = "fail-msg";
                 }
@@ -330,6 +386,45 @@
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send(JSON.stringify(json));
     }
+    function deleteRole(roleTagElem){
+        let role = roleTagElem.innerHTML;
+        let xhttp = new XMLHttpRequest();
+        //callback
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                let messageContainer = document.getElementById("roleMessage");
+                let jsonResponse = JSON.parse(this.responseText);
+                console.log(jsonResponse);
+                messageContainer.innerHTML = jsonResponse.message;
+                if(jsonResponse.success === true){
+                    messageContainer.className = "success-msg";
+                    roleTagElem.parentNode.removeChild(roleTagElem);
+                    var roles = document.getElementById("roles");
+                    roles.selectedIndex = 0;
+                    for (var i=0; i < roles.length; i++){
+                        if(roles.options[i].text === role){
+                            roles.options[i] = null;
+                            break;
+                        }
+                    }
+                    roleSelected();
+                } else {
+                    messageContainer.className = "fail-msg";
+                }
+                setTimeout(function(){
+                    messageContainer.innerHTML = '';
+                    messageContainer.className = "info-msg"; //style normal
+                },5000);
+            }
+        };
+
+        // create a JSON object
+        let json = {"role": role};
+        xhttp.open('POST', '<s:url action="adminDeleteRole"/>', true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(JSON.stringify(json));
+    }
+    
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     PERMISSIONS especific functions
     XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
@@ -356,7 +451,6 @@
             console.log("cancel");
         }
 
-        event.preventDefault();
     }
 
     function addPermission(){
@@ -374,7 +468,7 @@
                 permissionMessage.innerHTML = jsonResponse.message;
                 if(jsonResponse.success === true){
                     permissionMessage.className = "success-msg";
-                    permissionsContainer.innerHTML += '<span class="item-tag" id="perm-'+permission+'" draggable="true" ondragstart="onDragStart(event);">'+permission+'</span>';
+                    permissionsContainer.innerHTML += '<span class="item-tag" id="perm-'+permission+'" draggable="true" ondragstart="onDragStart(event);">'+permission+'</span> ';
 
                 } else {
                     permissionMessage.className = "fail-msg";

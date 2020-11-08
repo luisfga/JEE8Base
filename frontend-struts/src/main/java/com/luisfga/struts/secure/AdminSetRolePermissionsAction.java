@@ -77,4 +77,11 @@ public class AdminSetRolePermissionsAction extends ActionSupport{
         return SUCCESS;
     }
     
+    @Action(value = "adminGetRolePermissions", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
+    public String getRolePermissions(){
+        
+        selectedRolePermissions = adminUseCase.getPermissionsByRole(selectedRole);
+        logger.info("selectedRolePermissions.size() = " + selectedRolePermissions.size());
+        return SUCCESS;
+    }
 }
