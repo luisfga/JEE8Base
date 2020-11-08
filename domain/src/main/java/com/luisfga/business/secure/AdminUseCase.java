@@ -141,4 +141,14 @@ public class AdminUseCase extends UseCase{
         
         return permissions;
     }
+    
+    @RequiresPermissions("admin:read")
+    public List<AppPermission> getPermissionsByRole(String roleName){
+        List<AppPermission> permissions;
+        
+        Query findRoleByName = em.createNamedQuery("AppRole.findByName");
+        findRoleByName.setParameter("roleName", roleName);
+        AppRole appRole = (AppRole) findRoleByName.getSingleResult();
+        return appRole.getPermissions();
+    }
 }
