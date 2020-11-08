@@ -6,77 +6,129 @@ body {
     height: 100%;
 }
 
-.button{
-    background-color: #0099ff; color: white; padding: 5px 10px 5px 10px;
-    text-decoration: none; border-radius: 20px; font-size: 15px; margin: 20px 5px 0 0;
-}
-
-.table{
-    width: 100%;
-    height: 100%;
-}
+/* TOP BAR*/
 .top-row{
-    border-bottom-style: solid;
-    border-bottom-width: 0.5px;
-    height: 6%;
+    padding: 10px;
     text-align: right;
+    border-bottom: #0099ff 0.1px solid;
+    height: 4.5%;
+    display: block;
 }
-.sec-row-side-menu{
-    width: 15%;
-    vertical-align: top;
-}
-.menu-item:hover{
-    background-color: lightgray;
-}
-.menu-item{
-    margin-left: 10px;
-    text-decoration: none;
-    font-weight: bold;    
+.menu-toggle {
+    padding: 5px 10px 5px 10px;
+    font-size: 20px;
+    cursor:pointer;
+    border-style: solid;
+    border-width: 0.5px;
+    border-radius: 5px;
 }
 
-.sec-row-content{
-    vertical-align: top;
-}
 .content-table{
     width: 100%;
+    height: 92%;
+}
+
+/*SIDE MENU BAR*/
+.side-menu-td{
+    width: 15%;
+    vertical-align: top;
     height: 100%;
-    border-spacing: 15px 15px;
+    background-color: #bbbbbb;
 }
-.content-tb-row1-col1{
-    border-radius: 20px;
-    vertical-align: top;
-    width: 10%;
-    background-color: lightgray;
+.side-menu{
+    width: 100%;
+    height: 100%;
 }
-.content-tb-row1-col2{
-    border-radius: 20px;
-    vertical-align: top;
-    width: 90%;
-    background-color: lightgray;
+.menu-title{
+    width: 100%;
+    text-align: center;
 }
-.content-tb-bottom{
-    border-radius: 20px;
+.menu-item{
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    margin-left: 15px;
+}
+.menu-item:hover{
+    background-color: #cccccc;
+}
+
+/*CONTENT*/
+.content-td{
     vertical-align: top;
+
+}
+.content{
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
 }
 .tb{
-    width: 100%;
-    overflow: hidden;
     border-collapse: collapse;
-}
-.tb tr{}
-.tb td{border: 0.5px solid}
-.tb-caption{
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background-color: gray;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    border: #0099ff 0.5px solid;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 10px;
     overflow: hidden;
-    color: black;
 }
+.tb-caption{
+    text-align: start;
+    background-color: #bbbbbb;
+    padding: 5px;
+}
+.cap-title{
+    color: black;
+    text-indent: 10px;
+    font-weight: bolder;    
+}
+.tag-container{
+    padding: 2.5px;
+    line-height: 1.6;
+    border: #bbbbbb 0.1px solid;
+}
+.item-tag{
+    padding: 2px 4px 2px 4px;
+    text-decoration: none; 
+    border: #0099ff 0.1px solid;
+    border-radius: 0.5px; 
+    font-size: 15px;
+    cursor: pointer;
+}
+.tb-last-line{
+    background-color: #bbbbbb;
+    padding: 7.5px;
+    height: 20px;
+}
+.input-group{
+    float: left;
+}
+.action-button{
+    padding: 2px 4px 2px 4px;
+    color: #bbbbbb;
+    background-color: #0099ff;
+    text-decoration: none; 
+    border: #0099ff 0.5px solid;
+    border-radius: 2.5px; 
+    cursor: pointer;
+    margin-left: 5px;
+}
+.trash-can-icon{
+    float: right;
+    width: 20px; height: 20px;
+}
+
+.placeholder-msg{color: black; margin-left: 15px;}
+.success-msg{color: green; float: right; margin-left: 15px;}
+.info-msg{color: black; float: right; margin-left: 15px;}
+.fail-msg{color: red; float: right; margin-left: 15px;}
+
 .tb-users-head{
     background-color: lightgray;
 }
-.tb-users-col-filters{
-}
+
+
 /* On screens that are 600px or greater*/
 @media screen and (min-width: 600px) {
 

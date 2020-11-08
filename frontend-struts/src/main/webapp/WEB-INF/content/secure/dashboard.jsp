@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <s:set var="rootPath">${pageContext.request.contextPath}</s:set>
@@ -8,79 +7,53 @@
         <title><s:text name="main.title"/></title>
         <link rel="stylesheet" href="${rootPath}/css/main.css"/>
         <link rel="stylesheet" href="${rootPath}/css/dashboard.css"/>
-        <script type="text/javascript" src="${rootPath}/javascript/main.js" defer></script>
+        <script>
+            function toggleMenu() {
+                console.log("Display = " + document.getElementById("menu-bar").style.display);
+                if (document.getElementById("menu-bar").style.display === ""){
+                    console.log("Agora -> none");
+                    document.getElementById("menu-bar").style.display = "none";
+                } else {
+                    console.log("Agora -> mostrar");
+                    document.getElementById("menu-bar").style.display = "";
+                }
+            }
+
+            function closeNav() {
+              document.getElementById("menu-bar").style.display = "none";
+            }
+        </script>
     </head>
 
     <body>
-        <table class="table">
+        <div class="top-row">
+            <span class="menu-toggle" onclick="toggleMenu()">&#9776;</span>
+        </div>
+
+        <table class="content-table">
             <tr>
-                <td colspan="2" class="top-row">
-                    <span>${pageContext.request.userPrincipal.name}</span>
-                    <s:url var="urlLogout" action="logout"/>
-                    <s:a href="%{urlLogout}" class="button">Logout</s:a> 
+                <td class="side-menu-td" id="menu-bar">
+                    <div class="side-menu">
+                        <br>
+                        <!-- Opções apenas para a role ADMIN -->
+                        <shiro:hasRole name="Admin">
+                            <div class="menu-title">${pageContext.request.userPrincipal.name}</div>
+                            <br><br>
+                            <s:url action="admin" var="adminUrl" />
+                            <s:a href="%{adminUrl}" class="menu-item">Administer the system</s:a><br>
+                            
+                            <s:url action="logout" var="logoutUrl"/>
+                            <s:a href="%{logoutUrl}" class="menu-item">Logout</s:a>
+                        </shiro:hasRole>     
+                    </div>
                 </td>
-            </tr>
-            <tr>
-                <td class="sec-row-side-menu">
-                    </br>
-                    <a href="" class="menu-item">Opção 1</a></br>
-                    <a href="" class="menu-item">Opção 2</a></br>
-                </td>
-                <td class="sec-row-content">
-                    <table class="content-table">
-                        <tr>
-                            <!--Painel "ROLES" da parte superior - Painel 1-->
-                            <td class="content-tb-row1-col1">
-                                <table class="tb">
-                                    <caption class="tb-caption"><s:text name="roles"/></caption>
-                                    <s:iterator value="roles">
-                                    <tr><td><s:property value="roleName"/></td></tr>
-                                    </s:iterator>
-                                </table>
-                            </td>
-                            <td class="content-tb-row1-col2">Painel 2</td>
-                        </tr>
+                <td class="content-td">
+                    <div class="content">
                         
-                        <!--Painel inferior da área principal-->
-                        <tr>
-                            <td colspan="2" class="content-tb-bottom">
-                                <table class="tb">
-                                    <caption class="tb-caption"><s:text name="users"/></caption>
-                                    <thead>
-                                        <tr>
-                                            <td class="tb-users-head"><s:text name="birthday"/></td>
-                                            <td class="tb-users-head"><s:text name="userName"/></td>
-                                            <td class="tb-users-head"><s:text name="email"/></td>
-                                            <td class="tb-users-head"><s:text name="roles"/></td>
-                                        </tr>                                        
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="tb-users-col-filters"><input type="text"/></td>
-                                            <td class="tb-users-col-filters"><input type="text"/></td>
-                                            <td class="tb-users-col-filters"><input type="text"/></td>
-                                            <td class="tb-users-col-filters"><input type="text"/></td>
-                                        </tr>
-                                        <s:iterator value="users">
-                                        <tr>
-                                            <td><s:property value="birthday"/></td>
-                                            <td><s:property value="userName"/></td>
-                                            <td><s:property value="email"/></td>
-                                            <td><s:iterator value="roles"><s:property value="roleName"/></br></s:iterator></td>
-                                        </tr>
-                                        </s:iterator>
-                                        </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                    </div>
                 </td>
             </tr>
         </table>
-            
+
     </body>
-
-    <script>
-
-    </script>
 </html>
