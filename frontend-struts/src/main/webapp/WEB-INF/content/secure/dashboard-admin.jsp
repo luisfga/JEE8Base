@@ -74,9 +74,10 @@
                                 <div class="tb-last-line-right-div">
                                     <img 
                                         ondragover="onDragOver(event);" 
-                                        ondrop="onRoleDrop(event);" 
+                                        ondrop="onRoleDeletionDrop(event);" 
                                         src="${rootPath}/images/trash-can.png" 
-                                        class="trash-can-icon" title="Drop here to remove"/>                                        
+                                        class="trash-can-icon" 
+                                        title="<s:text name="info.trash.can.hint"/>"/>                                        
                                 </div>
 
                             </div>
@@ -105,9 +106,9 @@
                                     <img 
                                         class="trash-can-icon" 
                                         ondragover="onDragOver(event);" 
-                                        ondrop="onPermissionDrop(event);" 
+                                        ondrop="onPermissionDeletionDrop(event);" 
                                         src="${rootPath}/images/trash-can.png" 
-                                        title="Drop here to remove"/>
+                                        title="<s:text name="info.trash.can.hint"/>"/>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +120,7 @@
                             <div class="tb-caption">
                                 <div class="cap-title"><s:text name="roles"/> & <s:text name="permissions"/></div>
                             </div>
-                            <div id="rolePermissionsContainer" class="tag-container" ondragover="onDragOver(event)" ondrop="onRolePermissionDrop(event)">
+                            <div id="rolePermissionsContainer" class="tag-container" ondragover="onDragOver(event)" ondrop="onRolePermissionSelectionDrop(event)">
                                 <s:iterator value="selectedRolePermissions">
                                 <span id="role-perm-<s:property value="permissionName"/>" 
                                       class="item-tag" 
@@ -142,7 +143,14 @@
                                               value="selectedRole" theme="simple"/>
                                     <a onclick="saveRolePermissions()" class="action-button" id="saveRolePermissionsBtn" style="display: none;"><s:text name="save"/></a>
                                 </div>
-                                
+                                <div class="tb-last-line-right-div">
+                                    <img 
+                                        class="trash-can-icon" 
+                                        ondragover="onDragOver(event);" 
+                                        ondrop="onRolePermissionDeletionDrop(event);" 
+                                        src="${rootPath}/images/trash-can.png" 
+                                        title="<s:text name="info.trash.can.hint"/>"/>
+                                </div>
                             </div>
                         </div>     
 
@@ -169,6 +177,32 @@
     /*XXXXXXXXXXXXXXXXXXX
       Grupos & Permissões
     XXXXXXXXXXXXXXXXXXXXX*/
+    function onRolePermissionDeletionDrop(event){
+        event.preventDefault();//cancel forward trickery
+        let rolePermissionTagId = event.dataTransfer.getData('text');
+
+        //only let roles be handled
+        if (rolePermissionTagId.startsWith("role-perm-") === false){
+            return;
+        }
+        
+        //remove tag element from tag container
+        let rolePermissionElement = document.getElementById(rolePermissionTagId);
+        let rolePermissionsContainer = document.getElementById('rolePermissionsContainer');
+        rolePermissionsContainer.removeChild(rolePermissionElement);
+        
+        //if its become empty, show placeholder info
+        //must check for node type Element to ignore empty text nodes
+        let elementChildsCount = 0;
+        for (var i = 0; i < rolePermissionsContainer.childNodes.length ; i++) {
+            if (rolePermissionsContainer.childNodes[i].nodeType === Node.ELEMENT_NODE) {
+                elementChildsCount++;
+            }
+        }
+        if (elementChildsCount === 0){
+            rolePermissionsContainer.innerHTML = '<span id="role-perm-placeholder" class="placeholder-msg"><s:text name="info.role.without.permissions"/></span>';
+        }
+    }
     function saveRolePermissions(){
         console.log("Salvar rolePermissions");
         let roles = document.getElementById("roles");
@@ -203,7 +237,7 @@
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send(JSON.stringify(json));
     }
-    function onRolePermissionDrop(event) {
+    function onRolePermissionSelectionDrop(event) {
         event.preventDefault();//cancel forward trickery
 
         //get tagElementId from drag event
@@ -360,6 +394,10 @@
     /*XXXXXXXXXXXXXXXXXXXXXXXX
     Generic Drag&Drop Handlers
     XXXXXXXXXXXXXXXXXXXXXXXXXX*/
+    function reset(){
+        document.getElementById('roles').selectedIndex = 0;
+        roleSelected();
+    }
     function onDragStart(event) {
         event.dataTransfer.setData('text/plain', event.target.id);
     }
@@ -373,14 +411,11 @@
     /*XXXXXXXXXXXXXXXXXXXXXXX
     ROLES especific functions
     XXXXXXXXXXXXXXXXXXXXXXXXX*/
-    function onRoleDrop(event) {
+    function onRoleDeletionDrop(event) {
         event.preventDefault();//cancel forward trickery
         let roleTagId = event.dataTransfer.getData('text');
 
         //only let roles be handled
-        console.log("roleTagId = " + roleTagId);
-        console.log("roleTagId.startsWith(role-) = " + roleTagId.startsWith("role-"));
-        console.log("roleTagId.startsWith(role-) !== true = " + roleTagId.startsWith("role-") !== true);
         if (roleTagId.startsWith("role-") === false){
             return;
         }
@@ -433,7 +468,9 @@
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send(JSON.stringify(json));
     }
+    
     function deleteRole(roleTagElem){
+        reset();
         let role = roleTagElem.innerHTML;
         let xhttp = new XMLHttpRequest();
         //callback
@@ -475,7 +512,7 @@
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     PERMISSIONS especific functions
     XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-    function onPermissionDrop(event) {
+    function onPermissionDeletionDrop(event) {
         event.preventDefault();
         let permissionTagId = event.dataTransfer.getData('text');
 
@@ -535,6 +572,7 @@
     }
 
     function deletePermission(permissionTagElem){
+        reset();
         let permission = permissionTagElem.innerHTML;
         let xhttp = new XMLHttpRequest();
         //callback
