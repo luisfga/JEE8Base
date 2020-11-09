@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <s:set var="rootPath">${pageContext.request.contextPath}</s:set>
 <html>
@@ -35,16 +36,17 @@
                 <td class="side-menu-td" id="menu-bar">
                     <div class="side-menu">
                         <br>
+                        <div class="menu-title"><shiro:principal/></div>
+                        <br><br>
+                        
                         <!-- Opções apenas para a role ADMIN -->
                         <shiro:hasRole name="Admin">
-                            <div class="menu-title">${pageContext.request.userPrincipal.name}</div>
-                            <br><br>
                             <s:url action="admin" var="adminUrl" />
-                            <s:a href="%{adminUrl}" class="menu-item">Administer the system</s:a><br>
+                            <s:a href="%{adminUrl}" class="menu-item"><s:text name="system.administration"/></s:a><br>
+                        </shiro:hasRole>
                             
-                            <s:url action="logout" var="logoutUrl"/>
-                            <s:a href="%{logoutUrl}" class="menu-item">Logout</s:a>
-                        </shiro:hasRole>     
+                        <s:url action="logout" var="logoutUrl"/>
+                        <s:a href="%{logoutUrl}" class="menu-item"><s:text name="logout"/></s:a>
                     </div>
                 </td>
                 <td class="content-td">

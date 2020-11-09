@@ -4,6 +4,7 @@ html {
 body {
     margin: 0;
     height: 100%;
+    overflow: hidden;
 }
 
 /* TOP BAR*/
@@ -25,7 +26,7 @@ body {
 
 .content-table{
     width: 100%;
-    height: 92%;
+    height: 95.5%;
 }
 
 /*SIDE MENU BAR*/
@@ -56,6 +57,7 @@ body {
 /*CONTENT*/
 .content-td{
     vertical-align: top;
+    padding-top: 25px;
 
 }
 .content{
@@ -67,11 +69,13 @@ body {
     border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 25px;
+    margin-bottom: 25px;
     border: #0099ff 0.5px solid;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 10px;
     overflow: hidden;
+    background-color: #bbbbbb;
+    width: inherit;
 }
 .tb-caption{
     text-align: start;
@@ -81,28 +85,31 @@ body {
 .cap-title{
     color: black;
     text-indent: 10px;
-    font-weight: bolder;    
+    font-weight: bolder;
 }
 .tag-container{
     padding: 2.5px;
     line-height: 1.6;
     border: #bbbbbb 0.1px solid;
+    background-color: white;
 }
 .item-tag{
     padding: 2px 4px 2px 4px;
     text-decoration: none; 
-    border: #0099ff 0.1px solid;
+    border-style: solid;
+    border-width: 0.1px;
+    border-color: #0099ff;
     border-radius: 0.5px; 
     font-size: 15px;
     cursor: pointer;
 }
 .tb-last-line{
-    background-color: #bbbbbb;
-    padding: 7.5px;
-    height: 20px;
+    display: inline-block;
+    width: 100%;
 }
 .input-group{
     float: left;
+    margin: 10px 10px 10px 10px;
 }
 .action-button{
     padding: 2px 4px 2px 4px;
@@ -114,15 +121,19 @@ body {
     cursor: pointer;
     margin-left: 5px;
 }
-.trash-can-icon{
+.tb-last-line-right-div{
     float: right;
+    text-align: right;
+}
+.trash-can-icon{
+    margin: 10px 10px 10px 10px;
     width: 20px; height: 20px;
 }
 
 .placeholder-msg{color: black; margin-left: 15px; font-size: 12px;}
-.success-msg{color: green; float: right; margin-left: 15px;}
-.info-msg{color: black; float: right; margin-left: 15px;}
-.fail-msg{color: red; float: right; margin-left: 15px;}
+.success-msg{color: green; text-align: center;}
+.info-msg{color: black; text-align: center;}
+.fail-msg{color: red; text-align: center;}
 
 .tb-users-head{
     background-color: lightgray;

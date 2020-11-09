@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <s:set var="rootPath">${pageContext.request.contextPath}</s:set>
 <html>
@@ -35,22 +36,24 @@
                 <td class="side-menu-td" id="menu-bar">
                     <div class="side-menu">
                         <br>
+                        <div class="menu-title"><shiro:principal/></div>
+                        <br><br>
+                        
                         <!-- Opções apenas para a role ADMIN -->
                         <shiro:hasRole name="Admin">
-                            <div class="menu-title">${pageContext.request.userPrincipal.name}</div>
-                            <br><br>
                             <s:url action="admin" var="adminUrl" />
-                            <s:a href="%{adminUrl}" class="menu-item">Administer the system</s:a><br>
-                            
-                            <s:url action="logout" var="logoutUrl"/>
-                            <s:a href="%{logoutUrl}" class="menu-item">Logout</s:a>
-                        </shiro:hasRole>     
+                            <s:a href="%{adminUrl}" class="menu-item"><s:text name="system.administration"/></s:a><br>
+                        </shiro:hasRole>
+                        
+                        <s:url action="logout" var="logoutUrl"/>
+                        <s:a href="%{logoutUrl}" class="menu-item"><s:text name="logout"/></s:a>  
                     </div>
                 </td>
                 <td class="content-td">
                     <div class="content">
                         
                         <!-- ROLES -->
+                        <div id="roleMessage" class="info-msg"></div>
                         <div class="tb">
                             <div class="tb-caption">
                                 <div class="cap-title"><s:text name="roles"/></div>
@@ -67,17 +70,20 @@
                                 <div class="input-group">
                                     <s:textfield id="role" name="role" theme="simple"/>
                                     <a onclick="addRole()" class="action-button">+</a>
-                                    <div id="roleMessage" class="info-msg"></div>
                                 </div>
-                                <img 
-                                    ondragover="onDragOver(event);" 
-                                    ondrop="onRoleDrop(event);" 
-                                    src="${rootPath}/images/trash-can.png" 
-                                    class="trash-can-icon" title="Drop here to remove"/>
+                                <div class="tb-last-line-right-div">
+                                    <img 
+                                        ondragover="onDragOver(event);" 
+                                        ondrop="onRoleDrop(event);" 
+                                        src="${rootPath}/images/trash-can.png" 
+                                        class="trash-can-icon" title="Drop here to remove"/>                                        
+                                </div>
+
                             </div>
                         </div>
 
                         <!-- PERMISSÕES -->
+                        <div id="permissionMessage" class="info-msg"></div>
                         <div class="tb">
                             <div class="tb-caption">
                                 <div class="cap-title"><s:text name="permissions"/></div>
@@ -94,18 +100,21 @@
                                 <div class="input-group">
                                     <s:textfield id="permission" name="permission" theme="simple"/>
                                     <a onclick="addPermission()" class="action-button">+</a>
-                                    <div id="permissionMessage" class="info-msg"></div>
                                 </div>
-                                <img 
-                                    class="trash-can-icon" 
-                                    ondragover="onDragOver(event);" 
-                                    ondrop="onPermissionDrop(event);" 
-                                    src="${rootPath}/images/trash-can.png" 
-                                    title="Drop here to remove"/>
+                                <div class="tb-last-line-right-div">
+                                    <img 
+                                        class="trash-can-icon" 
+                                        ondragover="onDragOver(event);" 
+                                        ondrop="onPermissionDrop(event);" 
+                                        src="${rootPath}/images/trash-can.png" 
+                                        title="Drop here to remove"/>
+                                </div>
                             </div>
                         </div>
 
                         <!-- ROLES & PERMISSÕES -->
+                        <div id="rolePermissionMessage" class="info-msg"></div>
+                        <div id="rolePermissionControlMessage" class="info-msg"></div>
                         <div class="tb">
                             <div class="tb-caption">
                                 <div class="cap-title"><s:text name="roles"/> & <s:text name="permissions"/></div>
@@ -121,7 +130,7 @@
                             </div>
                             <div class="tb-last-line">
                                 <div class="input-group">
-                                    <s:select headerKey="-1" headerValue="Select a role" 
+                                    <s:select headerKey="-1" headerValue="%{getText('info.select.role')}"
                                               key="roles" 
                                               list="roles" 
                                               listKey="roleName" 
@@ -131,8 +140,9 @@
                                               listTitle="Select"
                                               onchange="roleSelected()"
                                               value="selectedRole" theme="simple"/>
-                                    <div id="rolePermissionMessage" class="info-msg"></div>
+                                    <a onclick="saveRolePermissions()" class="action-button" id="saveRolePermissionsBtn" style="display: none;"><s:text name="save"/></a>
                                 </div>
+                                
                             </div>
                         </div>     
 
@@ -158,7 +168,41 @@
     <script>
     /*XXXXXXXXXXXXXXXXXXX
       Grupos & Permissões
-    XXXXXXXXXXXXXXXXXXXXX*/        
+    XXXXXXXXXXXXXXXXXXXXX*/
+    function saveRolePermissions(){
+        console.log("Salvar rolePermissions");
+        let roles = document.getElementById("roles");
+        let selectedRole = roles.options[roles.selectedIndex].text;
+        let rolePermissionsContainer = document.getElementById('rolePermissionsContainer');
+        
+        let rolePermissions = [];
+        for (var i = 0; i < rolePermissionsContainer.childNodes.length; i++) {
+            if(rolePermissionsContainer.childNodes[i].nodeType === Node.ELEMENT_NODE){
+                rolePermissions.push(rolePermissionsContainer.childNodes[i].innerHTML);
+            }
+            
+        }
+        
+        //load permissions of the selectedRole
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if (this.readyState === 4 && this.status === 200) {
+                let jsonResponse = JSON.parse(this.responseText);
+                console.log(jsonResponse);
+                let message = jsonResponse.message;
+                let success = jsonResponse.success;
+                if (success){
+                    showMessage('rolePermissionMessage',message,'success-msg',true);
+                } else {
+                    showMessage('rolePermissionMessage',message,'fail-msg',true);
+                }
+            }
+        };
+        let json = {"selectedRole": selectedRole, "rolePermissions": rolePermissions};
+        xhttp.open('POST', '<s:url action="adminSaveRolePermissions"/>', true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(JSON.stringify(json));
+    }
     function onRolePermissionDrop(event) {
         event.preventDefault();//cancel forward trickery
 
@@ -175,7 +219,7 @@
                 if (roles.options[i].text === roleName) {
                     roles.selectedIndex = i;
                     var message = '<s:text name="info.role.selected"/>';
-                    showMessage('rolePermissionMessage', message.replace("{0}",roleName), "success-msg", false);
+                    showMessage('rolePermissionControlMessage', message.replace("{0}",roleName), "success-msg", false);
                     roleSelected();
                     return;
                 }
@@ -247,12 +291,15 @@
         
         //check if the selected one was the 'empty' option
         let roles = document.getElementById('roles');
+        let saveRolePermissionsBtn = document.getElementById('saveRolePermissionsBtn');
         if (roles.selectedIndex === 0) {
-            resetMessageContainer('rolePermissionMessage');
+            resetMessageContainer('rolePermissionControlMessage');
             let rolePermissionsContainer = document.getElementById("rolePermissionsContainer");
             rolePermissionsContainer.innerHTML='<span id="role-perm-placeholder" class="placeholder-msg"><s:text name="info.drop.permission.here"/></span>';
+            saveRolePermissionsBtn.style.display = "none";
             return;
         }
+        saveRolePermissionsBtn.style.display = "";
         let selectedRole = roles.options[roles.selectedIndex].text;
         
         //load permissions of the selectedRole
@@ -274,13 +321,13 @@
             }
         };
         let json = {"selectedRole": selectedRole};
-        xhttp.open('POST', '<s:url action="adminGetRolePermissions"/>', true);
+        xhttp.open('POST', '<s:url action="adminLoadRolePermissions"/>', true);
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send(JSON.stringify(json));
         
         //set message
         let message = '<s:text name="info.role.selected"/>';
-        showMessage('rolePermissionMessage', message.replace("{0}", selectedRole), "success-msg", false);
+        showMessage('rolePermissionControlMessage', message.replace("{0}", selectedRole), "success-msg", false);
         console.log("roleSelected()");
     }
     

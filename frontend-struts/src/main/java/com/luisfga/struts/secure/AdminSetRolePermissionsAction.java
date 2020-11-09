@@ -6,6 +6,7 @@
 package com.luisfga.struts.secure;
 
 import com.luisfga.business.entities.AppPermission;
+import com.luisfga.business.entities.AppRole;
 import com.luisfga.business.exceptions.AlreadyExistsException;
 import com.luisfga.business.exceptions.UndeletableException;
 import com.luisfga.business.secure.AdminUseCase;
@@ -62,23 +63,26 @@ public class AdminSetRolePermissionsAction extends ActionSupport{
         this.selectedRolePermissions = selectedRolePermissions;
     }
     
-    @Action(value = "adminSetRolePermissions", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
-    public String addSetRolePermissions(){
-        if(selectedRole != null && !selectedRole.isEmpty()){
-            try {
-                adminUseCase.saveRole(selectedRole);
-                success = true;
-                message = getText("action.message.successfully.saved");
-            } catch (AlreadyExistsException ex) {
-                message = getText("action.error.already.exists");
-                success = false;
-            }
-        }
+    private List<String> rolePermissions;
+    public List<String> getRolePermissions(){
+        return rolePermissions;
+    }
+    public void setRolePermissions(List<String> rolePermissions){
+        this.rolePermissions = rolePermissions;
+    }
+    
+    @Action(value = "adminSaveRolePermissions", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
+    public String addSaveRolePermissions(){
+
+        adminUseCase.associateRolePermissions(selectedRole, rolePermissions);
+        success = true;
+        message = getText("action.message.successfully.saved");
+
         return SUCCESS;
     }
     
-    @Action(value = "adminGetRolePermissions", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
-    public String getRolePermissions(){
+    @Action(value = "adminLoadRolePermissions", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
+    public String loadRolePermissions(){
         
         selectedRolePermissions = adminUseCase.getPermissionsByRole(selectedRole);
         logger.info("selectedRolePermissions.size() = " + selectedRolePermissions.size());
