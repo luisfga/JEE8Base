@@ -144,11 +144,23 @@ public class AdminUseCase extends UseCase{
     
     @RequiresPermissions("admin:read")
     public List<AppPermission> getPermissionsByRole(String roleName){
-        List<AppPermission> permissions;
-        
+        return getRoleByName(roleName).getPermissions();
+    }
+    
+    @RequiresPermissions("admin:read")
+    public AppRole getRoleByName(String roleName){
         Query findRoleByName = em.createNamedQuery("AppRole.findByName");
         findRoleByName.setParameter("roleName", roleName);
-        AppRole appRole = (AppRole) findRoleByName.getSingleResult();
-        return appRole.getPermissions();
+        return (AppRole) findRoleByName.getSingleResult();
+    }
+    
+    @RequiresPermissions("admin:create")
+    public void associateRolePermissions(String roleName, List<String> permissionsNames){
+        Query findPermissionsByNames = em.createNamedQuery("AppPermission.findPermissionsByNames");
+        findPermissionsByNames.setParameter("permissionsNames", permissionsNames);
+        List<AppPermission> permissions = findPermissionsByNames.getResultList();
+        
+        AppRole role = getRoleByName(roleName);
+        role.setPermissions(permissions);
     }
 }

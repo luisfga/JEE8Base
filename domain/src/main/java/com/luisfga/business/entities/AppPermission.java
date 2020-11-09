@@ -19,7 +19,8 @@ import javax.persistence.Table;
 @Table(name = "app_permission")
 @NamedQueries({
         @NamedQuery(name = "AppPermission.findAllPermissions", query = "SELECT ap FROM AppPermission ap"),
-        @NamedQuery(name = "AppPermission.findByName", query = "SELECT ap FROM AppPermission ap WHERE ap.permissionName = :permissionName")
+        @NamedQuery(name = "AppPermission.findByName", query = "SELECT ap FROM AppPermission ap WHERE ap.permissionName = :permissionName"),
+        @NamedQuery(name = "AppPermission.findPermissionsByNames", query = "SELECT ap FROM AppPermission ap WHERE ap.permissionName IN (:permissionsNames)")
 })
 public class AppPermission implements Serializable{
     
