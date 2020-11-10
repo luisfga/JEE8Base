@@ -28,6 +28,7 @@
 
     <body>
         <div class="top-row">
+            <span class="user-principal"><shiro:principal/></span>
             <span class="menu-toggle" onclick="toggleMenu()">&#9776;</span>
         </div>
 
@@ -36,17 +37,21 @@
                 <td class="side-menu-td" id="menu-bar">
                     <div class="side-menu">
                         <br>
-                        <div class="menu-title"><shiro:principal/></div>
+                        
                         <br><br>
                         
                         <!-- Opções apenas para a role ADMIN -->
                         <shiro:hasRole name="Admin">
-                            <s:url action="admin" var="adminUrl" />
-                            <s:a href="%{adminUrl}" class="menu-item"><s:text name="system.administration"/></s:a><br>
+                            <div class="menu-section-title"><s:text name="system.administration"/></div>
+                            <s:url action="admin-roles-and-permissions" var="adminUrl" />
+                            <s:a href="%{adminUrl}" class="menu-item"><s:text name="roles.and.permissions"/></s:a><br>
+                            
+                            <s:url action="admin-users-and-roles" var="adminUrl" />
+                            <s:a href="%{adminUrl}" class="menu-item"><s:text name="users.and.roles"/></s:a><br>
                         </shiro:hasRole>
                         
                         <s:url action="logout" var="logoutUrl"/>
-                        <s:a href="%{logoutUrl}" class="menu-item"><s:text name="logout"/></s:a>  
+                        <s:a href="%{logoutUrl}" class="logout-menu-item"><s:text name="logout"/></s:a>  
                     </div>
                 </td>
                 <td class="content-td">
@@ -153,18 +158,6 @@
                                 </div>
                             </div>
                         </div>     
-
-                        <!--TABELA USUÁRIOS-->
-                        <div class="tb">
-                            <div class="tb-caption">
-                                <div class="cap-title"><s:text name="users"/></div>
-                            </div>
-                            <div id="users-search">
-                                <s:textfield id="user" name="user" theme="simple"/>
-                                <s:url var="urlSearch" action="searchUser"/>
-                                <s:a href="%{urlSearch}" class="action-button">Buscar</s:a>                                 
-                            </div>
-                        </div>
 
                     </div>
                 </td>

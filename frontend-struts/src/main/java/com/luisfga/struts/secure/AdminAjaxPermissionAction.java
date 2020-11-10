@@ -22,7 +22,7 @@ import org.apache.struts2.convention.annotation.Result;
  * @author Luis
  */
 @ParentPackage("json-default")
-public class AdminRoleAction extends ActionSupport{
+public class AdminAjaxPermissionAction extends ActionSupport{
     
     private final Logger logger = LogManager.getLogger();
     
@@ -36,12 +36,13 @@ public class AdminRoleAction extends ActionSupport{
         this.success = success;
     }
 
-    private String role;
-    public String getRole() {
-        return role;
+    
+    private String permission;
+    public String getPermission() {
+        return permission;
     }
-    public void setRole(String role) {
-        this.role = role;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
     
     private String message;
@@ -52,11 +53,11 @@ public class AdminRoleAction extends ActionSupport{
         this.message = message;
     }
     
-    @Action(value = "adminAddRole", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
-    public String addRole(){
-        if(role != null && !role.isEmpty()){
+    @Action(value = "adminAddPermission", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
+    public String addPermission(){
+        if(permission != null && !permission.isEmpty()){
             try {
-                adminUseCase.saveRole(role);
+                adminUseCase.savePermission(permission);
                 success = true;
                 message = getText("action.message.successfully.saved");
             } catch (AlreadyExistsException ex) {
@@ -67,16 +68,16 @@ public class AdminRoleAction extends ActionSupport{
         return SUCCESS;
     }
     
-    @Action(value = "adminDeleteRole", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
-    public String deleteRole(){
-        logger.info("Deletando role? " + role);
-        if(role != null && !role.isEmpty()){
+    @Action(value = "adminDeletePermission", results = {@Result(type = "json")}, interceptorRefs = @InterceptorRef("json"))
+    public String deletePermission(){
+        logger.info("Deletando permissão? " + permission);
+        if(permission != null && !permission.isEmpty()){
             
             try {
-                adminUseCase.deleteRole(role);
+                adminUseCase.deletePermission(permission);
                 success = true;
                 message = getText("action.message.successfully.deleted");
-                logger.info("Role deletada = " + role);
+                logger.info("Permissão deletada = " + permission);
                 
             } catch (UndeletableException ex) {
                 success = false;

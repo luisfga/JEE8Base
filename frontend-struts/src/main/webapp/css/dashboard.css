@@ -15,6 +15,11 @@ body {
     height: 4.5%;
     display: block;
 }
+.user-principal{
+    width: 100%;
+    color: black;
+    margin-right: 20px;
+}
 .menu-toggle {
     padding: 5px 10px 5px 10px;
     font-size: 20px;
@@ -34,24 +39,39 @@ body {
     width: 15%;
     vertical-align: top;
     height: 100%;
-    background-color: #bbbbbb;
+    background-color: #cccccc;
 }
 .side-menu{
     width: 100%;
     height: 100%;
 }
-.menu-title{
-    width: 100%;
-    text-align: center;
+.menu-section-title{
+    font-weight: bold;
+    width: 80%;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    color: black;
 }
 .menu-item{
+    text-decoration: none;
+    font-size: 12px;
+    display: block;
+    margin-left: 30px;
+    color: black;
+}
+.menu-item:hover{
+    background-color: #cccccc;
+}
+.logout-menu-item{
     text-decoration: none;
     font-weight: bold;
     display: block;
     margin-left: 15px;
+    margin-bottom: 15px;
+    color: black;
 }
-.menu-item:hover{
-    background-color: #cccccc;
+.logout-menu-item:hover{
+    background-color: darkgray;    
 }
 
 /*CONTENT*/
@@ -72,20 +92,17 @@ body {
     margin-bottom: 25px;
     border: #0099ff 0.5px solid;
     border-top-right-radius: 15px;
-    border-bottom-right-radius: 10px;
     overflow: hidden;
     background-color: #bbbbbb;
     width: inherit;
 }
 .tb-caption{
-    text-align: start;
     background-color: #bbbbbb;
-    padding: 5px;
 }
 .cap-title{
     color: black;
-    text-indent: 10px;
     font-weight: bolder;
+    margin: 10px 10px 10px 10px;
 }
 .tag-container{
     padding: 2.5px;
@@ -112,12 +129,10 @@ body {
     margin: 10px 10px 10px 10px;
 }
 .action-button{
-    padding: 2px 4px 2px 4px;
-    color: #bbbbbb;
+    padding: 2px 5px 2px 5px;
+    color: white;
     background-color: #0099ff;
     text-decoration: none; 
-    border: #0099ff 0.5px solid;
-    border-radius: 2.5px; 
     cursor: pointer;
     margin-left: 5px;
 }
@@ -135,9 +150,6 @@ body {
 .info-msg{color: black; text-align: center;}
 .fail-msg{color: red; text-align: center;}
 
-.tb-users-head{
-    background-color: lightgray;
-}
 
 
 /* On screens that are 600px or greater*/

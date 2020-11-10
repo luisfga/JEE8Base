@@ -25,7 +25,7 @@ import org.apache.struts2.convention.annotation.Result;
  * @author Luis
  */
 @ParentPackage("json-default")
-public class AdminSetRolePermissionsAction extends ActionSupport{
+public class AdminAjaxSetRolePermissionsAction extends ActionSupport{
     
     private final Logger logger = LogManager.getLogger();
     
