@@ -38,7 +38,7 @@ Foi desenvolvido com **TomEE 8.0.4** em um **JDK 1.8** (1.8.0_252). Também foi 
 
 #### Casos de uso
 
-*Os casos de uso não utilizam interface @Remote, mas apenas o @LocalBean gerado automaticamente. Para o caso de necessidade basta fazer com que eles implementem suas interfaces de um jar separado e utilizar esse jar tanto no 'domain' quanto nos frontends.*
+*Os casos de uso não utilizam interface @Remote, mas apenas o @LocalBean gerado automaticamente. Em caso de necessidade basta fazer com que eles implementem suas interfaces de um jar separado e utilizar esse jar tanto no 'domain' quanto nos frontends.*
 
 ##### Registrar
 O usuário cadastra email, senha, nome e data de nascimento. A senha tem um campo para confirmação. O sistema grava os dados com o password codificado (hashing) e status NEW. O sistema utiliza o passwordService do Apache Shiro para codificar e verificar senhas. O sistema envia email para que o usuário confirme. O email enviado no link está codificado em Base64.
