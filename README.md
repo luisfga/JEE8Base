@@ -16,15 +16,16 @@ O módulo domain precisa que dois recursos sejam disponibilizados no servidor:
 - applicationDS, datasource do bando de dados;
 - applicationMailSession, sessão de email utilizada nos casos de uso ConfirmRegistration e PasswordRecovery.
 
-### Frontend
-O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-jsf">frontend-jsf</a> contém páginas xhtml e seus Beans e testes unitários.
-O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-struts">frontend-struts</a> contém páginas jsp e actions e testes unitários.
-Ambos têm resource bundle para i18n e configuração do Shiro (shiro.ini).
+### Frontend JSF
+O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-jsf">frontend-jsf</a> contém páginas xhtml, seus Beans, testes unitários, resource bundle para i18n e configuração do Shiro (shiro.ini).
+
+### Frontend Struts
+O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-struts">frontend-struts</a> contém páginas jsp e actions, testes unitários, resource bundle para i18n e configuração do Shiro (shiro.ini). *No branch 'user-management', esta versão possui também no dashboard frontend para administração de Roles e Permissões e suas associações, cheio de javascript, drag&drop e mais. =)*
 
 ### Angular + Rest
 O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-rest">frontend-rest</a> contém a api necessária para frontends client-side. O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-angular">frontend-angular</a> contém um projeto angular.
 
-### Os frontends estão dispostos de maneira que são mutuamente excludentes
+### Os frontends são mutuamente excludentes
 Apenas um deles pode estar no servidor, pois todos importam o .jar do módulo domain, que possui ejbs que não podem se repetir.
 
 Os módulos WAR(jsf, struts e rest) possuem um arquivo (WEB-INF/resources.xml) com configuração de datasource para o TomEE. Esse arquivo pode ser excluído caso queira colocar o *resource* direto no servidor. Nesse arquivo está também contido um template para o *resource* da sessão de email.
@@ -36,6 +37,8 @@ O módulo frontend-angular deve ser executado no nodeja. Outra opção é compil
 Foi desenvolvido com **TomEE 8.0.4** em um **JDK 1.8** (1.8.0_252). Também foi testado no **WildFly20**. Para o wildfly são necessárias pequenas alterações, como o escopo de algumas dependências (openjpa e hsqldb são padrão no TomEE e estão com o escopo **provided**). O modulo angular foi feito com nodejs v12.
 
 #### Casos de uso
+
+*Os casos de uso não utilizam interface @Remote, mas apenas o @LocalBean gerado automaticamente. Para o caso de necessidade basta fazer com que eles implementem suas interfaces de um jar separado e utilizar esse jar tanto no 'domain' quanto nos frontends.*
 
 ##### Registrar
 O usuário cadastra email, senha, nome e data de nascimento. A senha tem um campo para confirmação. O sistema grava os dados com o password codificado (hashing) e status NEW. O sistema utiliza o passwordService do Apache Shiro para codificar e verificar senhas. O sistema envia email para que o usuário confirme. O email enviado no link está codificado em Base64.
