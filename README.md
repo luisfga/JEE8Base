@@ -24,13 +24,15 @@ O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-stru
 ### Angular + Rest
 O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-rest">frontend-rest</a> contém a api necessária para frontends client-side. O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-angular">frontend-angular</a> contém um projeto angular. * *Por enquanto, há apenas a funcionalidade de Login, com exemplo de XmlHttpRequest e Json Web Token (JWT).*
 
+#### Notas
+
 *Os módulos WAR(jsf, struts e rest) possuem um arquivo (WEB-INF/resources.xml) com configuração de datasource para o TomEE. Esse arquivo pode ser excluído caso queira colocar o *resource* direto no servidor. Nesse arquivo está também contido um template para o *resource* da sessão de email.*
 
-*Os testes unitários utilizam JUnit, Mockito e o ApplicationComposer do OpenEJB (embedded).*
+*Os testes unitários utilizam **JUnit**, **Mockito** e o **ApplicationComposer** do OpenEJB (embedded).*
 
-*O módulo frontend-angular deve ser executado no nodejs. Outra opção é compilar, montar e colocar o diretório gerado (**dist**) num pacote junto com a api rest.*
+*O módulo frontend-angular deve ser executado no nodejs. Outra opção é compilar, montar e colocar o diretório gerado (dist) num pacote junto com a api rest.*
 
-*Foi desenvolvido/testado com **TomEE 8.0.4** em um **JDK 1.8** (1.8.0_252). Também foi testado no **WildFly20**. Para o wildfly são necessárias pequenas alterações, como o escopo de algumas dependências (openjpa e hsqldb são padrão no TomEE e estão com o escopo **provided**). O modulo angular foi feito com nodejs v12.*
+*Foi desenvolvido/testado com **TomEE 8.0.4** em um **JDK 1.8** (1.8.0_252). Também foi testado no **WildFly20**. Para o wildfly são necessárias pequenas alterações, como o escopo de algumas dependências (openjpa e hsqldb são padrão no TomEE e estão com o escopo* provided *). O modulo angular foi feito com nodejs v12.*
 
 #### Casos de uso
 
@@ -45,8 +47,6 @@ O usuário clica no link enviado por email e o sistema atualizado o status para 
 ##### Login
 O usuário utiliza email e senha para logar. O sistema usa uma implementação própria do JdbcRealm do Apache Shiro para buscar os dados de autenticação no banco de dados. O passwordService verifica se o password confere com o que está salvo (hashed) no banco. 
 
-OBS: o sistema foi feito pra transmissão via HTTPS, i.e. com TLS, por isso não codifica senhas no cliente antes de transmiti-las, o que é desnecessário no caso. Se por ventura se queira usar HTTP ao invés de HTTPS basta codificar a informações necessárias (basicamente senhas) no client-side. Nos frontends Struts ou JSF é preciso usar javascript. No angular, tranquilo, é tudo javascript mesmo. Mas optou-se por não fazê-lo pois a idéia é utilizar HTTPS.
-    
 ##### Recuperação de password
 O sistema pede data de nascimento e email antes de enviar um email com link para o funcionalidade "reset de senha". O sistema "abre uma janela" de 7 minutos para que a operação seja executada.
     
