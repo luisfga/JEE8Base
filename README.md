@@ -12,8 +12,7 @@ O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/domain">domai
 
 O módulo domain usa o OpenJPA como implementação da persistência.
     
-O módulo domain precisa que dois recursos sejam disponibilizados no servidor:
-- applicationDS, datasource do bando de dados;
+O módulo domain precisa que um recurso seja disponibilizado no servidor:
 - applicationMailSession, sessão de email utilizada nos casos de uso ConfirmRegistration e PasswordRecovery.
 
 ### Frontend JSF
@@ -33,9 +32,9 @@ Os módulos WAR(jsf, struts e rest) possuem um arquivo (WEB-INF/resources.xml) c
 
 Os testes unitários utilizam JUnit, Mockito e o ApplicationComposer do OpenEJB (embedded).
 
-O módulo frontend-angular deve ser executado no nodeja. Outra opção é compilar, montar e colocar o diretório gerado (**dist**) num pacote junto com a api rest.
+O módulo frontend-angular deve ser executado no nodejs. Outra opção é compilar, montar e colocar o diretório gerado (**dist**) num pacote junto com a api rest.
 
-Foi desenvolvido com **TomEE 8.0.4** em um **JDK 1.8** (1.8.0_252). Também foi testado no **WildFly20**. Para o wildfly são necessárias pequenas alterações, como o escopo de algumas dependências (openjpa e hsqldb são padrão no TomEE e estão com o escopo **provided**). O modulo angular foi feito com nodejs v12.
+Foi desenvolvido/testado com **TomEE 8.0.4** em um **JDK 1.8** (1.8.0_252). Também foi testado no **WildFly20**. Para o wildfly são necessárias pequenas alterações, como o escopo de algumas dependências (openjpa e hsqldb são padrão no TomEE e estão com o escopo **provided**). O modulo angular foi feito com nodejs v12.
 
 #### Casos de uso
 
