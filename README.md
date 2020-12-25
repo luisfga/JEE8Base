@@ -42,13 +42,13 @@ O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-rest
 O usuário cadastra email, senha, nome e data de nascimento. A senha tem um campo para confirmação. O sistema grava os dados com o password codificado (hashing) e status NEW. O sistema utiliza o passwordService do Apache Shiro para codificar e verificar senhas. O sistema envia email para que o usuário confirme. O email enviado no link está codificado em Base64.
     
 ##### Confirmar registro
-O usuário clica no link enviado por email e o sistema atualizado o status para OK.
+O usuário clica no link enviado por email e o sistema atualiza o status para OK.
     
 ##### Login
-O usuário utiliza email e senha para logar. O sistema usa uma implementação própria do JdbcRealm do Apache Shiro para buscar os dados de autenticação no banco de dados. O passwordService verifica se o password confere com o que está salvo (hashed) no banco. 
+O usuário utiliza email e senha para logar. O sistema usa uma implementação própria do JdbcRealm do Apache Shiro para buscar os dados de autenticação no banco de dados. O passwordService verifica se o password confere com o que está salvo (codificado) no banco. 
 
 ##### Recuperação de password
 O sistema pede data de nascimento e email antes de enviar um email com link para o funcionalidade "reset de senha". O sistema "abre uma janela" de 7 minutos para que a operação seja executada.
     
 ##### Reset de password
-O usuário clica no link enviado para o email. O sistema valida se está dentro do limite de 7 minutos. Se sim, retorna para tela onde o usuário poderá digitar uma nova senha. O campo email é mostrado 'read-only' e a senha tem um campo para confirmação.
+O usuário clica no link enviado para o email. O sistema valida se está dentro do limite de 7 minutos. Se sim, encaminha o usuário para a tela onde ele poderá cadastrar a nova senha. O campo email é mostrado 'read-only' e a senha tem um campo para confirmação.
