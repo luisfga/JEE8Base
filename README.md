@@ -26,7 +26,7 @@ O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-rest
 
 #### Notas
 
-*Os módulos WAR(jsf, struts e rest) possuem um arquivo (WEB-INF/resources.xml) com configuração de datasource para o TomEE. Esse arquivo pode ser excluído caso queira colocar o *resource* direto no servidor. Nesse arquivo está também contido um template para o *resource* da sessão de email.*
+*Os módulos WAR(jsf, struts e rest) possuem um arquivo (WEB-INF/resources.xml) com configuração de datasource para o TomEE. Esse arquivo pode ser excluído caso queira colocar o *resource* direto no servidor. Nesse arquivo há também um template para o *resource* da sessão de email.*
 
 *Os testes unitários utilizam **JUnit**, **Mockito** e o **ApplicationComposer** do OpenEJB (embedded).*
 
