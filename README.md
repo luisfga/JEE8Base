@@ -1,11 +1,11 @@
 # JEE8Demo
 
-Este projeto está dividido entre o backend (domain) e frontend(JSF ou Struts). Há ainda a opção do Angular para o frontend, neste caso é preciso utilizar o módulo rest, que disponibiliza a api necessária para frontends client-side. Utilizando o <a href="https://tomee.apache.org/download-ng.html">**TomEE 8.0.4**</a>, com a configuração default, o único ajuste necessário para que tudo funcione é a sessão de email (javax.mail.Session). Basta baixar o servidor, fazer o deploy de um dos módulos **frontend** e configurar a sessão de email (há um template em WEB-INF/resources.xml).
+Este projeto está dividido entre o backend (domain) e frontend(JSF, Struts ou Rest+Angular). Utilizando o <a href="https://tomee.apache.org/download-ng.html">**TomEE 8.0.4**</a>, com a configuração padrão, o único ajuste necessário para que tudo funcione é a sessão de email (javax.mail.Session).
 
 ### Domain
 O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/domain">domain</a> contém:
-- Entidades e configurações da JPA;
-- Casos de uso (Register, ConfirmRegistration, Login, Password Recovery e Reset);
+- Entidades e configurações JPA;
+- Casos de uso (Registro, Confirmação de Registro, Login, Recuperação e Reset de Senha);
 - Exceções;
 - JdbcRealm para o Apache Shiro.
 - Testes unitários.
