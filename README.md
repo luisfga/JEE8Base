@@ -19,7 +19,7 @@ O módulo domain precisa que um recurso seja disponibilizado no servidor:
 O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-jsf">frontend-jsf</a> contém páginas xhtml, seus Beans, testes unitários, resource bundle para i18n e configuração do Shiro (shiro.ini).
 
 ### Frontend Struts
-O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-struts">frontend-struts</a> contém páginas jsp e actions, testes unitários, resource bundle para i18n e configuração do Shiro (shiro.ini). * *No branch '<a href="https://github.com/luisfga/JEE8Demo/tree/user-management">user-management</a>' esta versão possui também, no dashboard (tela após o login), frontend para administração de Roles e Permissões e suas associações, cheio de javascript, drag&drop e mais. =)*
+O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-struts">frontend-struts</a> contém páginas jsp e actions, testes unitários, resource bundle para i18n e configuração do Shiro (shiro.ini). * *No branch '<a href="https://github.com/luisfga/JEE8Demo/tree/user-management/frontend-struts/src/main/webapp/WEB-INF/content/secure">user-management</a>' esta versão possui também, no dashboard (tela após o login), frontend para administração de Roles e Permissões e suas associações, cheio de javascript, drag&drop e mais. =)*
 
 ### Angular + Rest
 O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-rest">frontend-rest</a> contém a api necessária para frontends client-side. O módulo <a href="https://github.com/luisfga/JEE8Demo/tree/master/frontend-angular">frontend-angular</a> contém um projeto angular. * *Por enquanto, há apenas a funcionalidade de Login, com exemplo de XmlHttpRequest e Json Web Token (JWT).*
